@@ -25,6 +25,17 @@ The goal is to create a web application where users can **upload**, **store**, a
      - **Date**: Date of the metric (e.g., `2024-11-01`).
      - **Category**: Category of the data (e.g., Sales, Expenses).
      - **Value**: Numeric value of the metric (e.g., `200`).
+      ```csv
+      Date,Category,Value
+      2024-11-01,Sales,200
+      2024-11-01,Expenses,150
+      2024-11-02,Sales,300
+      2024-11-02,Expenses,100
+      2024-11-03,Sales,250
+      2024-11-03,Marketing,50
+      2024-11-04,Expenses,180
+      2024-11-04,Marketing,80
+      ```
    - Each uploaded CSV is processed, and its contents are stored in the system.
 
 2. **Viewing Metrics**
