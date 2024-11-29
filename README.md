@@ -2,8 +2,14 @@
 This technical test requires you to design and implement an **Analytics Metrics Dashboard** using **Next.js**, **Tailwind CSS**, and **Flowbite**. This system will help MicroboxLabs visualize simple data uploaded by users and generate basic metrics and visualizations.
 
 #### **Before You Begin**
-Create a private GitHub repository and invite the provided collaborators: `@korutx`, `@odtorres`. Should you have any questions, contact `devtest@microboxlabs.io`.  
-**Title of the project**: Fullstack-Test-(Last Name)
+Fork this repository and invite the provided collaborators: `@korutx`, `@odtorres`. Should you have any questions, contact `devtest@microboxlabs.com`. 
+
+#### **Guidelines**
+- We provide a basic Flowbite + Next.js template to get you started.
+- You can use any additional libraries you see fit, but make sure to justify your choices.
+- Flowbite documentation is available [here](https://flowbite-react.com/docs/getting-started/introduction).
+- Tailwind CSS documentation is available [here](https://tailwindcss.com/docs/utility-first).
+- Next.js documentation is available [here](https://nextjs.org/docs).
 
 #### **Problem Description**
 MicroboxLabs wants a simple analytics solution where users can upload CSV data files and visualize important metrics through charts. The uploaded data will allow the team to generate insights and easily observe trends.
