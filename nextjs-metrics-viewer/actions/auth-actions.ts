@@ -1,6 +1,6 @@
 "use server";
 
-import { signIn } from "@/auth";
+import { signIn, signOut } from "@/auth";
 import { AuthError } from "next-auth";
 import { prisma } from "@/prisma";
 import { Values } from "@/components/Login/LoginComponent";
@@ -15,6 +15,17 @@ export const loginAction = async (values: Values) => {
       redirect: false,
     });
     return { success: true };
+  } catch (error) {
+    if (error instanceof AuthError) {
+      return { error: error.cause?.err?.message };
+    }
+    return { error: "error 500" };
+  }
+};
+
+export const signOutAction = async () => {
+  try {
+    await signOut();
   } catch (error) {
     if (error instanceof AuthError) {
       return { error: error.cause?.err?.message };

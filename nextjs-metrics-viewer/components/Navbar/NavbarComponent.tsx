@@ -6,7 +6,7 @@ import { TfiAlignJustify, TfiClose } from "react-icons/tfi";
 export default function NavbarComponent() {
   const { open, setOpen } = useSidebarStore((state) => state);
   return (
-    <Navbar fluid rounded>
+    <Navbar fluid rounded className="w-screen bg-slate-50">
       <Button
         size="xs"
         color="light"
