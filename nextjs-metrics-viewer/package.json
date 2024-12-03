@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@libsql/client": "^0.14.0",
+    "bcrypt": "^5.1.1",
     "better-sqlite3": "^11.6.0",
     "drizzle-orm": "^0.37.0",
     "flowbite-react": "^0.8.0",
@@ -21,6 +22,7 @@
     "uuid": "^11.0.3"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/better-sqlite3": "^7.6.12",
     "@types/node": "^20",
     "@types/react": "^18",
