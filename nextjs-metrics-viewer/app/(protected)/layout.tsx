@@ -11,12 +11,10 @@ export default function Layout({
     <>
       <SidebarStoreProvider>
         <NavbarComponent />
-        <div className="flex h-5/6 w-full flex-row">
+        <div className="flex flex-row">
           <SidebarComponent />
-          <main className="w-full flex-1 p-4 md:p-8">
-            <div className="flex max-h-screen items-center justify-center">
-              {children}
-            </div>
+          <main className="flex-1 p-4 md:p-10">
+            <div className="ml-14 md:ml-10">{children}</div>
           </main>
         </div>
       </SidebarStoreProvider>

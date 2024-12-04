@@ -14,7 +14,7 @@ export const config = {
   ],
 };
 
-const publicRoutes = ["/", "/register", "/blog", "/category"];
+const publicRoutes = ["/", "/register"];
 
 export default middleware((req) => {
   const { nextUrl, auth } = req;

@@ -5,7 +5,7 @@ export type SidebarState = {
 };
 
 export type SidebarActions = {
-  setOpen: () => void;
+  setOpen: (value: boolean) => void;
 };
 
 export type SidebarStore = SidebarState & SidebarActions;
@@ -19,6 +19,6 @@ export const createSidebarStore = (
 ) => {
   return createStore<SidebarStore>()((set) => ({
     ...initState,
-    setOpen: () => set((state) => ({ open: !state.open })),
+    setOpen: (value: boolean) => set(() => ({ open: value })),
   }));
 };

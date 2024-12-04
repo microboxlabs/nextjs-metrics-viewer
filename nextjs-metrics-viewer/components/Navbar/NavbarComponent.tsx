@@ -1,24 +1,18 @@
 "use client";
-import { useSidebarStore } from "@/providers/SidebarStateProvider";
-import { Navbar, Button } from "flowbite-react";
-import { TfiAlignJustify, TfiClose } from "react-icons/tfi";
-
+import { Navbar } from "flowbite-react";
+import Link from "next/link";
 export default function NavbarComponent() {
-  const { open, setOpen } = useSidebarStore((state) => state);
   return (
-    <Navbar fluid rounded className="w-screen bg-slate-50">
-      <Button
-        size="xs"
-        color="light"
-        className="focus:bg-none"
-        onClick={() => setOpen()}
-      >
-        {open ? (
-          <TfiClose className="size-5" />
-        ) : (
-          <TfiAlignJustify className="size-5" />
-        )}
-      </Button>
+    <Navbar
+      fluid
+      rounded
+      className="sticky top-0 z-30 h-16 w-screen items-center bg-slate-50"
+    >
+      <Navbar.Brand as={Link} href="/">
+        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+          Metrics Viewer
+        </span>
+      </Navbar.Brand>
     </Navbar>
   );
 }

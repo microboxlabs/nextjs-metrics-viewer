@@ -21,25 +21,15 @@ model User {
   email    String  @unique
   name     String?
   lastname String?
-  image    String?
   role     Int
   password String?
 
   roles Role @relation(fields: [role], references: [id])
 }
 
-model Categories {
-  id   Int    @id @default(autoincrement())
-  name String
-
-  metrics Metrics[]
-}
-
 model Metrics {
-  id         Int        @id @default(autoincrement())
-  cat_id     Int
-  date       String
-  category   String
-  value      Float
-  categories Categories @relation(fields: [cat_id], references: [id])
+  id       Int    @id @default(autoincrement())
+  date     String
+  category String
+  value    Float
 }

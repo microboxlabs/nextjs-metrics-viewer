@@ -52,6 +52,7 @@ export const RegisterAction = async (values: RegisterValues) => {
     await prisma.user.create({
       data: {
         name: values.name,
+        lastname: values.lastname,
         email: values.email,
         password,
         role: 1,

@@ -13,7 +13,7 @@ import { RxUpload } from "react-icons/rx";
 import GetSession from "@/actions/get-session";
 
 export default function SidebarComponent() {
-  const { open } = useSidebarStore((state) => state);
+  const { open, setOpen } = useSidebarStore((state) => state);
   const router = useRouter();
   const [session, setSession] = React.useState<any>(null);
 
@@ -33,8 +33,10 @@ export default function SidebarComponent() {
   };
   return (
     <Sidebar
-      className={`fixed left-0 transition-all duration-500 ease-in-out ${open ? "w-80" : "w-16"} z-40 md:z-0`}
+      className={`fixed left-0 transition-all duration-500 ease-in-out ${open ? "w-80" : "w-16"} z-40`}
       aria-label="Sidebar with content separator example"
+      onMouseEnter={() => setOpen(true)}
+      onMouseLeave={() => setOpen(false)}
     >
       <Sidebar.Items>
         <Sidebar.ItemGroup>
@@ -43,10 +45,7 @@ export default function SidebarComponent() {
           </Sidebar.Item>
           {session?.role === 2 ? (
             <>
-              <Sidebar.Item href="/dashboard" icon={IoListSharp}>
-                {open && "Categories"}
-              </Sidebar.Item>
-              <Sidebar.Item href="/dashboard" icon={RxUpload}>
+              <Sidebar.Item href="/upload" icon={RxUpload}>
                 {open && "Upload Data"}
               </Sidebar.Item>
             </>
