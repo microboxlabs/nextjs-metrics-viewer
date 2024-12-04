@@ -5,11 +5,34 @@ import { ReadCSV } from "@/utils/utils";
 import { useState, useEffect } from "react";
 import { GoPlus } from "react-icons/go";
 import AddModal from "../Modal/AddData";
+import EditModal from "../Modal/EditData";
+import DeleteModal from "../Modal/DeleteData";
+
 export default function TableData() {
   const [data, setData] = useState<Record<string, string>[]>([]);
   const [openAdd, setOpenAdd] = useState<boolean>(false);
   const [addData, setAddData] = useState<object | null>(null);
+  const [openEdit, setOpenEdit] = useState<boolean>(false);
+  const [initialEditData, setInitialEditData] = useState<
+    Record<string, string>
+  >({
+    Date: "",
+    Category: "",
+    Value: "",
+  });
+  const [editData, setEditData] = useState<object | null>(null);
+  const [openDelete, setOpenDelete] = useState<boolean>(false);
+  const [idDelete, setIdDelete] = useState<number | null>(null);
+  const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
+
+  const handleEdit = (res: any) =>
+    setData((prevData) => [
+      ...prevData.filter((item, index) => index != res.id),
+      ...[res],
+    ]);
   const handleSave = (res: any) => setData((prevData) => [...prevData, res]);
+  const handleDelete = (id: number) =>
+    setData((prevData) => prevData.filter((item, index) => index !== id));
   const handleFileUpload = async (files: FileList | null) => {
     try {
       if (files) {
@@ -31,6 +54,19 @@ export default function TableData() {
       handleSave(addData);
     }
   }, [addData]);
+
+  useEffect(() => {
+    if (editData) {
+      handleEdit(editData);
+    }
+  }, [editData]);
+
+  useEffect(() => {
+    if (confirmDelete) {
+      handleDelete(confirmDelete);
+    }
+  }, [confirmDelete]);
+
   return (
     <>
       <div className="my-5 flex w-full flex-row items-center justify-end">
@@ -59,9 +95,7 @@ export default function TableData() {
             <Table.HeadCell>Date</Table.HeadCell>
             <Table.HeadCell>Category</Table.HeadCell>
             <Table.HeadCell>Value</Table.HeadCell>
-            <Table.HeadCell>
-              <span className="sr-only">Edit</span>
-            </Table.HeadCell>
+            <Table.HeadCell className="text-center">Actions</Table.HeadCell>
           </Table.Head>
           <Table.Body className="divide-y">
             {data &&
@@ -74,13 +108,30 @@ export default function TableData() {
                     <Table.Cell>{data.Date}</Table.Cell>
                     <Table.Cell>{data.Category}</Table.Cell>
                     <Table.Cell>${parseFloat(data.Value)}</Table.Cell>
-                    <Table.Cell>
-                      <a
-                        href="#"
-                        className="font-medium text-cyan-600 hover:underline dark:text-cyan-500"
+                    <Table.Cell className="flex items-center justify-evenly">
+                      <Button
+                        size="small"
+                        pill
+                        onClick={() => {
+                          setInitialEditData({ id: index.toString(), ...data });
+                          setOpenEdit(true);
+                        }}
+                        className="w-16"
                       >
                         Edit
-                      </a>
+                      </Button>
+                      <Button
+                        size="small"
+                        pill
+                        className="w-16"
+                        color="failure"
+                        onClick={() => {
+                          setIdDelete(index);
+                          setOpenDelete(true);
+                        }}
+                      >
+                        Delete
+                      </Button>
                     </Table.Cell>
                   </Table.Row>
                 );
@@ -98,6 +149,22 @@ export default function TableData() {
         onClose={(b: boolean) => setOpenAdd(b)}
         onSave={(res: any) => {
           setAddData(res);
+        }}
+      />
+      <EditModal
+        open={openEdit}
+        onClose={(b: boolean) => setOpenEdit(b)}
+        onSave={(res: any) => {
+          setEditData(res);
+        }}
+        initialData={initialEditData}
+      />
+      <DeleteModal
+        id={idDelete ? idDelete : 0}
+        open={openDelete}
+        onClose={(b: boolean) => setOpenDelete(b)}
+        onSave={(id: number) => {
+          setConfirmDelete(id);
         }}
       />
     </>
