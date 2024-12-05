@@ -1,6 +1,6 @@
 export default function MetricsChart() {
   return (
-    <div className="w-full max-w-sm rounded-lg  bg-gray-800 p-4 shadow md:p-6">
+    <div className="w-full rounded-lg  bg-gray-800 p-4 shadow md:p-6">
       <div className="mb-4 flex justify-between border-b  border-gray-700 pb-4">
         <div className="flex items-center">
           <div className="me-3 flex size-12 items-center justify-center rounded-lg bg-gray-700">
@@ -61,10 +61,11 @@ export default function MetricsChart() {
         </dl>
       </div>
 
-      <div id="column-chart"></div>
+      <div id="column-chart" className="w-full">
+        <span className="text-white">NO DATA</span>
+      </div>
       <div className="grid grid-cols-1 items-center justify-between border-t border-gray-700">
         <div className="flex items-center justify-between pt-5">
-          {/* <!-- Button --> */}
           <button
             id="dropdownDefaultButton"
             data-dropdown-toggle="lastDaysdropdown"
@@ -89,7 +90,6 @@ export default function MetricsChart() {
               />
             </svg>
           </button>
-          {/* <!-- Dropdown menu --> */}
           <div
             id="lastDaysdropdown"
             className="z-10 hidden w-44 divide-y divide-gray-100 rounded-lg  bg-gray-700 shadow"

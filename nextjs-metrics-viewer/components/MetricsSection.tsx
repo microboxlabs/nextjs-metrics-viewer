@@ -6,11 +6,10 @@ import UploadDataModal from "@/components/UploadDataModal";
 
 export default function MetricsSection() {
   const [options, setOptions] = useState({
-    colors: ["#1A56DB", "#FDBA8C"],
+    colors: ["#84b6f4", "#fdfd96", "#77dd77", "#ff6961", "#fdcae1"],
     series: [
       {
         name: "Organic",
-        color: "#1A56DB",
         data: [
           { x: "Mon", y: 231 },
           { x: "Tue", y: 122 },
@@ -23,7 +22,6 @@ export default function MetricsSection() {
       },
       {
         name: "Social media",
-        color: "#FDBA8C",
         data: [
           { x: "Mon", y: 232 },
           { x: "Tue", y: 113 },
@@ -37,7 +35,7 @@ export default function MetricsSection() {
     ],
     chart: {
       type: "bar",
-      height: "320px",
+      height: "420px",
       fontFamily: "Inter, sans-serif",
       toolbar: {
         show: false,
@@ -84,7 +82,7 @@ export default function MetricsSection() {
       enabled: false,
     },
     legend: {
-      show: false,
+      show: true,
     },
     xaxis: {
       floating: false,
@@ -110,18 +108,76 @@ export default function MetricsSection() {
     },
   });
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   const chartElement = document.getElementById("column-chart");
+  //   if (chartElement && typeof ApexCharts !== "undefined") {
+  //     chartElement.innerHTML = "";
+  //     const chart = new ApexCharts(chartElement, options);
+  //     chart.render();
+  //   }
+  // }, []);
+
+  interface formattedSeries {
+    name: string;
+    data: { x: string; y: string }[];
+  }
+
+  enum Headers {
+    Date = "Date",
+    Category = "Category",
+    Value = "Value",
+  }
+
+  const updateOptions = (data: string, groupByKey = Headers.Category) => {
+    const text = data.split("\r\n");
+    const headers = text.shift()?.split(",");
+    const splittedData = text.map((row) => {
+      let obj: { [key in Headers]?: string } = {};
+      const values = row.split(",");
+      headers?.forEach((header, index) => {
+        if (Object.values(Headers).includes(header as Headers)) {
+          obj[header as Headers] = values[index] ?? "";
+        }
+      });
+      return obj;
+    });
+
+    const mapData = new Map<string, formattedSeries>();
+
+    splittedData.forEach((row) => {
+      const category = row[groupByKey];
+      if (!category) return;
+      if (!mapData.has(category)) {
+        mapData.set(category, {
+          name: category,
+          data: [],
+        });
+      }
+      if (!row[Headers.Date] || !row[Headers.Value]) return;
+      mapData
+        .get(category)
+        ?.data.push({ x: row[Headers.Date], y: row[Headers.Value] });
+    });
+    const dataSeries = Array.from(mapData.values()) as [];
+
+    setOptions((prev) => ({ ...prev, series: dataSeries }));
+  };
+
+  const updateChart = () => {
     const chartElement = document.getElementById("column-chart");
     if (chartElement && typeof ApexCharts !== "undefined") {
       chartElement.innerHTML = "";
       const chart = new ApexCharts(chartElement, options);
       chart.render();
     }
-  }, [options]);
+  };
 
   return (
     <section className="flex w-full max-w-screen-xl flex-col items-center gap-8">
-      <UploadDataModal />
+      <UploadDataModal
+        updateOptions={updateOptions}
+        updateChart={updateChart}
+      />
       <MetricsChart />
     </section>
   );

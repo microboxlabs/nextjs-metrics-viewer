@@ -1,7 +1,13 @@
 import { Button, Modal, FileInput, Label } from "flowbite-react";
 import { useState } from "react";
 
-export default function UploadDataModal() {
+export default function UploadDataModal({
+  updateOptions,
+  updateChart,
+}: {
+  updateOptions: (data: string) => void;
+  updateChart: () => void;
+}) {
   const [openModal, setOpenModal] = useState(false);
 
   const readFile = (event: React.FormEvent<HTMLInputElement>) => {
@@ -13,10 +19,11 @@ export default function UploadDataModal() {
       alert("Please upload a CSV file");
       return;
     }
+
     const reader = new FileReader();
     reader.readAsText(file);
     reader.onload = () => {
-      console.log(reader.result);
+      updateOptions(reader.result as string);
     };
   };
 
@@ -63,10 +70,14 @@ export default function UploadDataModal() {
             </Label>
           </div>
         </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={() => setOpenModal(false)}>I accept</Button>
-          <Button color="gray" onClick={() => setOpenModal(false)}>
-            Decline
+        <Modal.Footer className="flex w-full justify-center">
+          <Button
+            onClick={() => {
+              setOpenModal(false);
+              updateChart();
+            }}
+          >
+            Done
           </Button>
         </Modal.Footer>
       </Modal>
