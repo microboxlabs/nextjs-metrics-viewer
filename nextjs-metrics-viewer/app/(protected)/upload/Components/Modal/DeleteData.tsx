@@ -10,8 +10,8 @@ interface props {
 export default function DeleteModal({ id, open, onClose, onSave }: props) {
   const handleClose = () => onClose(false);
   const handleDelete = () => {
-    onSave(id);
     handleClose();
+    onSave(id);
   };
   return (
     <Modal show={open} onClose={handleClose}>

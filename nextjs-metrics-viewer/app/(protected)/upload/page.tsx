@@ -1,6 +1,4 @@
 import Divider from "@/components/Divider/DividerComponent";
-import { Button } from "flowbite-react";
-import { FaFileCsv } from "react-icons/fa";
 import TableData from "./Components/Table/TableData";
 export default function UploadPage() {
   return (
@@ -15,7 +13,8 @@ export default function UploadPage() {
           Once finished, you have to save your changes to apply.
         </p>
         <p className="my-3 text-base font-semibold">
-          The headers in CSV must be Date, Category, Value. Otherwise, the data will not be uploaded
+          The headers in CSV must be Date, Category, Value. Otherwise, the data
+          will not be uploaded
         </p>
         <TableData />
       </section>

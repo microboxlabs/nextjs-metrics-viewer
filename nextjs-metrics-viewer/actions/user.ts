@@ -15,9 +15,8 @@ export async function getUser(idUser: number) {
       name: user?.name,
       lastname: user?.lastname,
       email: user?.email,
-      image: user?.image,
     };
-  } catch (error) {
+  } catch (error:any) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&
       error.code == "P2025"
@@ -43,7 +42,7 @@ export async function UpdateUser(idUser: number, user: ProfileInitialValues) {
     });
 
     return { success: true };
-  } catch (error) {
+  } catch (error:any) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&
       error.code == "P2002"

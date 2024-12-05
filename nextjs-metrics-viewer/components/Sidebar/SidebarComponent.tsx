@@ -8,7 +8,7 @@ import { CgLogOut } from "react-icons/cg";
 import { SlGraph } from "react-icons/sl";
 import { signOutAction } from "@/actions/auth-actions";
 import { useRouter } from "next/navigation";
-import { IoListSharp } from "react-icons/io5";
+import { FaDatabase } from "react-icons/fa6";
 import { RxUpload } from "react-icons/rx";
 import GetSession from "@/actions/get-session";
 
@@ -47,6 +47,9 @@ export default function SidebarComponent() {
             <>
               <Sidebar.Item href="/upload" icon={RxUpload}>
                 {open && "Upload Data"}
+              </Sidebar.Item>
+              <Sidebar.Item href="/manage" icon={FaDatabase}>
+                {open && "Manage Data"}
               </Sidebar.Item>
             </>
           ) : null}

@@ -2,11 +2,12 @@
 import { Button, Table } from "flowbite-react";
 import { FaFileCsv } from "react-icons/fa";
 import { ReadCSV } from "@/utils/utils";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { GoPlus } from "react-icons/go";
 import AddModal from "../Modal/AddData";
 import EditModal from "../Modal/EditData";
 import DeleteModal from "../Modal/DeleteData";
+import { uploadData } from "@/actions/data";
 
 export default function TableData() {
   const [data, setData] = useState<Record<string, string>[]>([]);
@@ -22,8 +23,9 @@ export default function TableData() {
   });
   const [editData, setEditData] = useState<object | null>(null);
   const [openDelete, setOpenDelete] = useState<boolean>(false);
-  const [idDelete, setIdDelete] = useState<number | null>(null);
-  const [confirmDelete, setConfirmDelete] = useState<number | null>(null);
+  const [idDelete, setIdDelete] = useState<number>(0);
+  const [confirmDelete, setConfirmDelete] = useState<object | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleEdit = (res: any) =>
     setData((prevData) => [
@@ -31,8 +33,9 @@ export default function TableData() {
       ...[res],
     ]);
   const handleSave = (res: any) => setData((prevData) => [...prevData, res]);
-  const handleDelete = (id: number) =>
-    setData((prevData) => prevData.filter((item, index) => index !== id));
+  const handleDelete = (res: any) =>
+    setData((prevData) => prevData.filter((item, index) => index != res.id));
+
   const handleFileUpload = async (files: FileList | null) => {
     try {
       if (files) {
@@ -41,11 +44,27 @@ export default function TableData() {
         setData((prevData) => {
           return prevData ? [...prevData, ...result] : result;
         });
+        if (fileInputRef.current) {
+          fileInputRef.current.value = "";
+        }
       } else {
         console.log("Not file: ", files);
       }
     } catch (error) {
       console.error("Error al leer el archivo CSV:", error);
+    }
+  };
+
+  const handleSubmit = () => {
+    if (data.length > 0) {
+      const { error } = uploadData(data);
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Uploaded Files");
+      }
+    } else {
+      console.log("No data");
     }
   };
 
@@ -78,6 +97,7 @@ export default function TableData() {
             onChange={(e) => {
               handleFileUpload(e.target.files);
             }}
+            ref={fileInputRef}
           />
           <FaFileCsv className="mr-2 size-5" />
           Upload CSV
@@ -140,7 +160,12 @@ export default function TableData() {
         </Table>
       </div>
       <div className="my-10 flex items-center justify-center">
-        <Button color="success" pill disabled={!data}>
+        <Button
+          color="success"
+          pill
+          disabled={!data}
+          onClick={() => handleSubmit()}
+        >
           Save data
         </Button>
       </div>
@@ -160,12 +185,10 @@ export default function TableData() {
         initialData={initialEditData}
       />
       <DeleteModal
-        id={idDelete ? idDelete : 0}
+        id={idDelete}
         open={openDelete}
         onClose={(b: boolean) => setOpenDelete(b)}
-        onSave={(id: number) => {
-          setConfirmDelete(id);
-        }}
+        onSave={(id: number) => setConfirmDelete({ id })}
       />
     </>
   );
