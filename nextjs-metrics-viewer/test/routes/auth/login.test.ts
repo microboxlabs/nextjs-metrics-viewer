@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import { POST } from "@/app/api/auth/login/routes";
+import { POST } from "@/app/api/auth/login/route";
 import { DatabaseConnection } from "@/lib/db";
 import { users } from "@/lib/db/schemas/user";
 import { UserFactory } from "@/test/factories/users";
