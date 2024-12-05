@@ -1,10 +1,18 @@
-import { DarkThemeToggle } from "flowbite-react";
+import dynamic from "next/dynamic";
+
+const DynamicMetricsSection = dynamic(
+  () => import("@/components/MetricsSection"),
+  {
+    ssr: false,
+  },
+);
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen items-center justify-center gap-2 dark:bg-gray-800">
-      <h1 className="text-2xl dark:text-white">Flowbite React + Next.js</h1>
-      <DarkThemeToggle />
+    <main className="flex min-h-screen flex-col items-center gap-8 bg-black py-24">
+      <h1 className="text-2xl text-white">Dashboard</h1>
+
+      <DynamicMetricsSection />
     </main>
   );
 }
