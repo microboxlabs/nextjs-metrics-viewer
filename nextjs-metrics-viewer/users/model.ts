@@ -1,3 +1,9 @@
+import { users } from "@/lib/db/schemas/user";
+
+export type NewUser = typeof users.$inferInsert;
+
+export type UserWithoutPassword = Omit<typeof users, "password">;
+
 export enum UserRole {
   Admin = "admin",
   Regular = "regular",
@@ -8,7 +14,7 @@ export type UserModelProps = {
   firstName: string;
   lastName: string;
   email: string;
-  password: string;
+  password?: string;
   role: UserRole;
   isActive?: boolean;
   createdAt?: Date;
@@ -46,8 +52,20 @@ export class UserModel {
     return this.__role;
   }
 
+  get firstName(): string {
+    return this.__firstName;
+  }
+
+  get lastName(): string {
+    return this.__lastName;
+  }
+
   get email(): string {
     return this.__email;
+  }
+
+  get password(): string | undefined {
+    return this.__password;
   }
 
   get isActive(): boolean {
@@ -66,7 +84,7 @@ export class UserModel {
     return `${this.__firstName} ${this.__lastName}`;
   }
 
-  public activateUser() {
+  public activeUser() {
     return new UserModel({
       id: this.__id,
       firstName: this.__firstName,
