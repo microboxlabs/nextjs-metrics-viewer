@@ -2,6 +2,7 @@
 import ApexCharts from "apexcharts";
 import { useState, useEffect } from "react";
 import MetricsChart from "@/components/MetricsChart";
+import UploadDataModal from "@/components/UploadDataModal";
 
 export default function MetricsSection() {
   const [options, setOptions] = useState({
@@ -116,10 +117,11 @@ export default function MetricsSection() {
       const chart = new ApexCharts(chartElement, options);
       chart.render();
     }
-  }, []);
+  }, [options]);
 
   return (
-    <section>
+    <section className="flex w-full max-w-screen-xl flex-col items-center gap-8">
+      <UploadDataModal />
       <MetricsChart />
     </section>
   );
