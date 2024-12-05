@@ -9,7 +9,10 @@ export default function UploadDataModal() {
       files: FileList;
     };
     const file = target.files[0];
-    console.log(file);
+    if (file.type !== "text/csv") {
+      alert("Please upload a CSV file");
+      return;
+    }
     const reader = new FileReader();
     reader.readAsText(file);
     reader.onload = () => {
@@ -19,7 +22,7 @@ export default function UploadDataModal() {
 
   return (
     <div className="flex w-full justify-end">
-      <Button onClick={() => setOpenModal(true)}>Load data</Button>
+      <Button onClick={() => setOpenModal(true)}>Upload data</Button>
 
       <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
         <Modal.Header>Upload your CSV file</Modal.Header>
