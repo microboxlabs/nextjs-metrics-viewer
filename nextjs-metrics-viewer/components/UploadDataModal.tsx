@@ -9,6 +9,7 @@ export default function UploadDataModal({
   updateChart: () => void;
 }) {
   const [openModal, setOpenModal] = useState(false);
+  const [file, setFile] = useState<File | null>(null);
 
   const readFile = (event: React.FormEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement & {
@@ -19,6 +20,8 @@ export default function UploadDataModal({
       alert("Please upload a CSV file");
       return;
     }
+
+    setFile(file);
 
     const reader = new FileReader();
     reader.readAsText(file);
@@ -31,13 +34,19 @@ export default function UploadDataModal({
     <div className="flex w-full justify-end">
       <Button onClick={() => setOpenModal(true)}>Upload data</Button>
 
-      <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
+      <Modal
+        dismissible
+        show={openModal}
+        onClose={() => {
+          setOpenModal(false);
+        }}
+      >
         <Modal.Header>Upload your CSV file</Modal.Header>
         <Modal.Body>
-          <div className="flex w-full items-center justify-center">
+          <div className="flex w-full flex-col items-center justify-center">
             <Label
               htmlFor="dropzone-file"
-              className="flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-600 bg-gray-700 hover:border-gray-500 hover:bg-gray-600"
+              className="mb-4 flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-600 bg-gray-700 hover:border-gray-500 hover:bg-gray-600"
             >
               <div className="flex flex-col items-center justify-center pb-6 pt-5">
                 <svg
@@ -68,6 +77,8 @@ export default function UploadDataModal({
                 accept="text/csv"
               />
             </Label>
+
+            {file && <span className="text-white">{file.name}</span>}
           </div>
         </Modal.Body>
         <Modal.Footer className="flex w-full justify-center">
@@ -75,6 +86,7 @@ export default function UploadDataModal({
             onClick={() => {
               setOpenModal(false);
               updateChart();
+              setFile(null);
             }}
           >
             Done
