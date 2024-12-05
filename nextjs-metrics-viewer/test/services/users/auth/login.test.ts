@@ -1,5 +1,6 @@
 import { DatabaseConnection } from "@/lib/db";
 import { users } from "@/lib/db/schemas/user";
+import { UnauthorizedError } from "@/lib/errors";
 import { UserFactory } from "@/test/factories/users";
 import { UserModel } from "@/users/model";
 import { UserAuthLoginService } from "@/users/services/auth/login";
@@ -34,5 +35,25 @@ describe("UserAuthLoginService", () => {
     );
     const { user } = await service.perform();
     expect(user).toBeInstanceOf(UserModel);
+  });
+
+  it("should throw UnauthorizedError when user email not found", async () => {
+    const service = new UserAuthLoginService(
+      "user@email.com",
+      mockUser.password,
+      DatabaseConnection.getInstance().db,
+    );
+
+    await expect(service.perform()).rejects.toThrow(UnauthorizedError);
+  });
+
+  it("should throw UnauthorizedError when user password not found", async () => {
+    const service = new UserAuthLoginService(
+      mockUser.email,
+      "",
+      DatabaseConnection.getInstance().db,
+    );
+
+    await expect(service.perform()).rejects.toThrow(UnauthorizedError);
   });
 });
