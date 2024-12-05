@@ -2,7 +2,6 @@ import { DatabaseConnection } from "@/lib/db";
 import { AppError } from "@/lib/errors";
 import { UserAuthLoginService } from "@/users/services/auth/login";
 import { StatusCodes } from "http-status-codes";
-import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
@@ -20,19 +19,16 @@ export async function POST(req: Request) {
     const loginService = new UserAuthLoginService(email, password, db);
     const result = await loginService.perform();
 
-    return NextResponse.json(result, { status: StatusCodes.OK });
+    return Response.json(result, { status: StatusCodes.OK });
   } catch (error: any) {
     if (error instanceof AppError) {
-      return NextResponse.json(
+      return Response.json(
         { error: error.message },
         { status: error.statusCode },
       );
     }
 
     console.error("Unhandled error:", error);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 },
-    );
+    return Response.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
