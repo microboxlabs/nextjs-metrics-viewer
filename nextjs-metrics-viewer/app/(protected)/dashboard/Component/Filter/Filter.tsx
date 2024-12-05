@@ -8,12 +8,9 @@ export interface FilterValues {
 
 export interface props {
   categories: { category: string }[];
-  onFilterApllied: Function;
+  onFilterAplied: Function;
 }
-export default function FilterComponent({
-  categories,
-  onFilterApllied,
-}: props) {
+export default function FilterComponent({ categories, onFilterAplied }: props) {
   return (
     <Formik
       initialValues={{
@@ -31,7 +28,7 @@ export default function FilterComponent({
         if (value.category != "") {
           Object.assign(data, { category: value.category });
         }
-        onFilterApllied(data);
+        onFilterAplied(data);
         setSubmitting(false);
       }}
     >

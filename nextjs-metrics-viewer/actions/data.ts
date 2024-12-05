@@ -29,37 +29,34 @@ export const uploadData = (data: Record<string, string>[]) => {
   }
 };
 
-export const getAllData = async (filters: any = {}) => {
+export const getAllData = async (filters: any = {}): Promise<IData | null> => {
   try {
     const data = await prisma.metrics.findMany({
       where: filters,
     });
     if (data.length > 0) {
-      const total = data.reduce((acc:[], { value }:any) => acc + value, 0);
-      const min = Math.min(...data.map((iteration:any) => iteration.value));
+      const total = data.reduce((accumulator, current) => accumulator + 1, 0);
+      const min = Math.min(...data.map((iteration: any) => iteration.value));
       const max = Math.max.apply(
         null,
-        data.map((iteration:any) => iteration.value),
+        data.map((iteration: any) => iteration.value),
       );
-      const avg = data.reduce((acc:any, curr:any) => acc + curr.value, 0) / data.length;
+      const avg =
+        data.reduce((acc: any, curr: any) => acc + curr.value, 0) / data.length;
       const parsedData = groupDataByDate(data);
       return {
-        response: {
-          min,
-          max,
-          total,
-          avg,
-          data: parsedData,
-          dataTable: data
-        },
+        min,
+        max,
+        total,
+        avg,
+        data: parsedData,
+        dataTable: data,
       };
     } else {
-      return {
-        response: null,
-      };
+      return null;
     }
   } catch (error) {
-    return { error: "error 500" };
+    return null;
   }
 };
 
@@ -85,12 +82,12 @@ function groupDataByDate(
   return data;
 }
 
-export async function getCategories(){
+export async function getCategories() {
   const categories = await prisma.metrics.groupBy({
-    by:["category"]
-  })
-  if (categories){
-    return categories
+    by: ["category"],
+  });
+  if (categories) {
+    return categories;
   }
-  return []
+  return [];
 }
