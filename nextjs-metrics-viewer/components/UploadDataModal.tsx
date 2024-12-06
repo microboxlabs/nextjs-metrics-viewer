@@ -78,7 +78,7 @@ export default function UploadDataModal({
               />
             </Label>
 
-            {file && <span className="text-white">{file.name}</span>}
+            {file && <span className="text-green-400">{file.name}</span>}
           </div>
         </Modal.Body>
         <Modal.Footer className="flex w-full justify-center">
