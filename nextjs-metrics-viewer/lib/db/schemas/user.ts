@@ -1,5 +1,5 @@
 import { sql } from "drizzle-orm";
-import { check } from "drizzle-orm/sqlite-core";
+import { check, int } from "drizzle-orm/sqlite-core";
 import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
 import { v4 as uuidv4 } from "uuid";
 
@@ -15,12 +15,12 @@ export const users = sqliteTable(
     password: text("password").notNull(),
     role: text("role").notNull(),
     isActive: integer("is_active", { mode: "boolean" }).notNull().default(true),
-    createdAt: text("created_at")
+    createdAt: integer("created_at", { mode: "timestamp" })
       .notNull()
-      .default(sql`datetime('now')`),
-    updatedAt: text("updated_at")
+      .default(sql`CURRENT_TIMESTAMP`),
+    updatedAt: integer("updated_at", { mode: "timestamp" })
       .notNull()
-      .default(sql`datetime('now')`),
+      .default(sql`CURRENT_TIMESTAMP`),
   },
   (table) => ({
     isActiveCheckConstraint: check(
