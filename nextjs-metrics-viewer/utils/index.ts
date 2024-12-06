@@ -1,6 +1,6 @@
 import { Headers, formattedSeries } from "@/interfaces";
 
-export function ProccessData(data: string) {
+export function ProccessDataToSeries(data: string) {
   const text = data.split("\r\n");
   const headers = text.shift()?.split(",");
   const splittedData = text.map((row) => {

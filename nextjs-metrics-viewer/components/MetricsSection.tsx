@@ -4,13 +4,13 @@ import { useState } from "react";
 import MetricsChart from "@/components/MetricsChart";
 import UploadDataModal from "@/components/UploadDataModal";
 import { INITIAL_OPTIONS } from "@/contants";
-import { ProccessData } from "@/utils";
+import { ProccessDataToSeries } from "@/utils";
 
 export default function MetricsSection() {
   const [options, setOptions] = useState(INITIAL_OPTIONS);
 
   const updateOptions = (data: string) => {
-    setOptions((prev) => ({ ...prev, series: ProccessData(data) }));
+    setOptions((prev) => ({ ...prev, series: ProccessDataToSeries(data) }));
   };
 
   const updateChart = () => {
