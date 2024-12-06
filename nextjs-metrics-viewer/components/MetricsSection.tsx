@@ -1,118 +1,16 @@
 "use client";
 import ApexCharts from "apexcharts";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import MetricsChart from "@/components/MetricsChart";
 import UploadDataModal from "@/components/UploadDataModal";
+import { INITIAL_OPTIONS } from "@/contants";
+import { ProccessData } from "@/utils";
 
 export default function MetricsSection() {
-  const [options, setOptions] = useState({
-    chart: {
-      height: "100%",
-      maxWidth: "100%",
-      type: "line",
-      fontFamily: "Inter, sans-serif",
-      dropShadow: {
-        enabled: false,
-      },
-      toolbar: {
-        show: false,
-      },
-    },
-    tooltip: {
-      enabled: true,
-      x: {
-        show: false,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      curve: "smooth",
-      width: 6,
-    },
-    grid: {
-      show: true,
-      strokeDashArray: 4,
-      padding: {
-        left: 2,
-        right: 2,
-        top: -26,
-      },
-    },
-    series: [],
-    legend: {
-      show: true,
-    },
-  });
-
-  interface formattedSeries {
-    name: string;
-    data: { x: string; y: string }[];
-  }
-
-  enum Headers {
-    Date = "Date",
-    Category = "Category",
-    Value = "Value",
-  }
+  const [options, setOptions] = useState(INITIAL_OPTIONS);
 
   const updateOptions = (data: string) => {
-    const text = data.split("\r\n");
-    const headers = text.shift()?.split(",");
-    const splittedData = text.map((row) => {
-      let obj: { [key in Headers]?: string } = {};
-      const values = row.split(",");
-      headers?.forEach((header, index) => {
-        if (Object.values(Headers).includes(header as Headers)) {
-          obj[header as Headers] = values[index] ?? "";
-        }
-      });
-      return obj;
-    });
-
-    const allDates = Array.from(
-      new Set(splittedData.map((row) => row[Headers.Date])),
-    );
-
-    const allCategories = Array.from(
-      new Set(splittedData.map((row) => row[Headers.Category])),
-    );
-
-    const normalizedData = allDates.flatMap((date) => {
-      return allCategories.map((category) => {
-        let obj: { [key in Headers]?: string } = {};
-        const entry = splittedData.find(
-          (item) =>
-            item[Headers.Date] === date && item[Headers.Category] === category,
-        );
-        obj[Headers.Date] = date;
-        obj[Headers.Category] = category;
-        obj[Headers.Value] = entry?.[Headers.Value] ?? "0";
-        return obj;
-      });
-    });
-
-    const mapData = new Map<string, formattedSeries>();
-
-    normalizedData.forEach((row) => {
-      const category = row[Headers.Category];
-      if (!category) return;
-      if (!mapData.has(category)) {
-        mapData.set(category, {
-          name: category,
-          data: [],
-        });
-      }
-      if (!row[Headers.Date] || !row[Headers.Value]) return;
-      mapData
-        .get(category)
-        ?.data.push({ x: row[Headers.Date], y: row[Headers.Value] });
-    });
-
-    const dataSeries = Array.from(mapData.values()) as [];
-
-    setOptions((prev) => ({ ...prev, series: dataSeries }));
+    setOptions((prev) => ({ ...prev, series: ProccessData(data) }));
   };
 
   const updateChart = () => {
