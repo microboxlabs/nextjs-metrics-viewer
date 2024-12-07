@@ -1,73 +1,90 @@
 import { Button, FloatingLabel } from "flowbite-react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 type Props = {
   children?: React.ReactNode;
 };
 
 function LoginFormComponent({ children }: Props) {
-  const [formData, setFormData] = useState<{ email: string; password: string }>(
-    {
-      email: "",
-      password: "",
-    },
-  );
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const router = useRouter();
 
   const [loading, setLoading] = useState(false);
 
   const [error, setError] = useState<string | null>(null);
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  }
-
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+  const onSubmit = handleSubmit(async (formData) => {
     setLoading(true);
     setError(null);
 
     try {
-      const response = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+      const response = await signIn("credentials", {
+        email: formData.email,
+        password: formData.password,
+        redirect: false,
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        setError(errorData.error || "Ocurrió un error inesperado");
+      if (!response || !response.ok || response.error) {
+        setError(response?.error || "Ocurrió un error inesperado");
         return;
       }
 
-      const data = await response.json();
-      console.log("Login exitoso:", data);
-
-      localStorage.setItem("token", data.token);
+      router.push("/dashboard");
     } catch (err) {
       console.error("Error durante la solicitud:", err);
       setError("Ocurrió un error al procesar la solicitud.");
     } finally {
       setLoading(false);
     }
-  }
+  });
 
   return (
-    <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
-      <FloatingLabel
-        variant="filled"
-        label="Correo electrónico"
-        name="email"
-        onChange={handleChange}
-      />
-      <FloatingLabel
-        variant="filled"
-        label="Contraseña"
-        name="password"
-        type="password"
-        onChange={handleChange}
-      />
+    <form className="flex flex-col gap-2" onSubmit={onSubmit}>
+      <div className="flex flex-col">
+        <FloatingLabel
+          variant="filled"
+          label="Correo electrónico"
+          color={errors.email ? "error" : "default"}
+          {...register("email", {
+            required: {
+              value: true,
+              message: "Correo electrónico es requerido",
+            },
+          })}
+        />
+        {errors.email && (
+          <p className="text-sm text-red-500">
+            {errors.email.message as string}
+          </p>
+        )}
+      </div>
+      <div className="flex flex-col">
+        <FloatingLabel
+          variant="filled"
+          label="Contraseña"
+          type="password"
+          color={errors.password ? "error" : "default"}
+          {...register("password", {
+            required: {
+              value: true,
+              message: "Contraseña es requerida",
+            },
+          })}
+        />
+        {errors.password && (
+          <p className="text-sm text-red-500">
+            {errors.password.message as string}
+          </p>
+        )}
+      </div>
       <div className="mt-5 flex w-full flex-col items-center justify-center gap-2">
         <Button
           type="submit"

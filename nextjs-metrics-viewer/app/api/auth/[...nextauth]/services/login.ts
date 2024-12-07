@@ -6,7 +6,7 @@ import UserUtilities from "@/users/utilities";
 import { eq } from "drizzle-orm";
 import jwt from "jsonwebtoken";
 
-export class UserAuthLoginService {
+export class LoginService {
   private readonly __db: DatabaseConnectionHandler;
   private readonly __email: string;
   private readonly __password: string;
