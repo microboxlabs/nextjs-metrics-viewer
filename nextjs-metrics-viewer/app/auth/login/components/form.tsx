@@ -1,5 +1,6 @@
 import { Button, FloatingLabel } from "flowbite-react";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -13,6 +14,8 @@ function LoginFormComponent({ children }: Props) {
     handleSubmit,
     formState: { errors },
   } = useForm();
+
+  const router = useRouter();
 
   const [loading, setLoading] = useState(false);
 
@@ -33,6 +36,8 @@ function LoginFormComponent({ children }: Props) {
         setError(response?.error || "Ocurrió un error inesperado");
         return;
       }
+
+      router.push("/dashboard");
     } catch (err) {
       console.error("Error durante la solicitud:", err);
       setError("Ocurrió un error al procesar la solicitud.");
