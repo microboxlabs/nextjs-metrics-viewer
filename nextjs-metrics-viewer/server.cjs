@@ -15,11 +15,10 @@ app.prepare().then(() => {
   const io = new Server(httpServer);
 
   io.on("connection", (socket) => {
-    io.emit("ping", "hola mundo");
-  });
-
-  io.on("ping", (data) => {
-    console.log("msg:", data);
+    socket.on("notification-server", (data) => {
+      console.log("data recieved: ", data);
+      io.emit("notification-client", data);
+    });
   });
 
   httpServer

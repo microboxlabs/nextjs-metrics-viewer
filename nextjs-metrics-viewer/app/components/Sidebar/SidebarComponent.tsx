@@ -10,15 +10,38 @@ import { useRouter } from "next/navigation";
 import { FaDatabase } from "react-icons/fa6";
 import { RxUpload } from "react-icons/rx";
 import { useSessionStore } from "@/lib/zustand/providers/SessionStateProvider";
-
+import { useNotificationStore } from "@/lib/zustand/providers/NotificationStateProvider";
+import { useMetricsStore } from "@/lib/zustand/providers/MetricsStateProvider";
+import { Session } from "next-auth";
 export default function SidebarComponent() {
-  const { session, setSession } = useSessionStore((store) => store);
+  const { setSession, connect, on } = useSessionStore((store) => store);
+  const { showToast } = useNotificationStore((store) => store);
+  const { getData, getTableData } = useMetricsStore((store) => store);
   const router = useRouter();
   const [open, setOpen] = React.useState<boolean>(false);
+  const [userSession, setUserSession] = React.useState<Session | null>(null);
+
+  React.useEffect(() => {}, []);
 
   React.useEffect(() => {
-    setSession();
-  }, [setSession]);
+    const FetchSession = async () => {
+      const session = await setSession();
+      if (session) {
+        setUserSession(session);
+        connect();
+        on("notification-client", (data) => {
+          if (data) {
+            if (session?.user.role == 1) {
+              getData({});
+              getTableData();
+              showToast(data.msg, "info");
+            }
+          }
+        });
+      }
+    };
+    FetchSession();
+  }, [setSession, connect, on, showToast]);
 
   const HandleLogout = async () => {
     await signOutAction();
@@ -36,7 +59,7 @@ export default function SidebarComponent() {
           <Sidebar.Item href="/dashboard" icon={SlGraph}>
             {open && "Dashboard"}
           </Sidebar.Item>
-          {session?.role === 2 ? (
+          {userSession?.user.role === 2 ? (
             <>
               <Sidebar.Item href="/upload" icon={RxUpload}>
                 {open && "Upload Data"}

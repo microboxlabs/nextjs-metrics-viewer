@@ -1,15 +1,7 @@
 "use client";
 
-import {
-  type ReactNode,
-  createContext,
-  useRef,
-  useContext,
-  useEffect,
-} from "react";
+import { type ReactNode, createContext, useRef, useContext } from "react";
 import { useStore } from "zustand";
-import io from "socket.io-client";
-
 import {
   type MetricsStore,
   createMetricsStore,
@@ -28,20 +20,11 @@ export interface MetricsStoreProviderProps {
 export const MetricsStoreProvider = ({
   children,
 }: MetricsStoreProviderProps) => {
-  const socket = io();
   const storeRef = useRef<MetricsStoreApi>();
   if (!storeRef.current) {
     storeRef.current = createMetricsStore();
   }
 
-  useEffect(() => {
-    console.log("trying to connect");
-    socket.emit("ping", "hola");
-    socket.on("message2", (data: any) => {
-      console.log("Recieved from SERVER ::", data);
-      // Execute any command
-    });
-  }, [socket]);
   return (
     <MetricsStoreContext.Provider value={storeRef.current}>
       {children}

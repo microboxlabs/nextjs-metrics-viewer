@@ -6,6 +6,7 @@ import { FaTrash } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import { useNotificationStore } from "@/lib/zustand/providers/NotificationStateProvider";
+import io from "socket.io-client";
 
 export default function TableManage() {
   const { showToast } = useNotificationStore((store) => store);
@@ -32,6 +33,10 @@ export default function TableManage() {
     if (error) {
       showToast(error, "error");
     } else {
+      const socket = io("http://localhost:3000");
+      socket.emit("notification-server", {
+        msg: "your admin has updated data. Please check your dashboard",
+      });
       showToast("Data updated successfully! ", "success");
     }
   };
@@ -42,6 +47,10 @@ export default function TableManage() {
     if (error) {
       showToast(error, "error");
     } else {
+      const socket = io("http://localhost:3000");
+      socket.emit("notification-server", {
+        msg: "Your admin has deleted data. Please check your dashboard",
+      });
       showToast("Data deleted successfully!", "success");
     }
   };

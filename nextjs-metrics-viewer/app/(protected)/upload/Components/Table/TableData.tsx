@@ -9,6 +9,7 @@ import EditModal from "../Modal/EditData";
 import DeleteModal from "../Modal/DeleteData";
 import { uploadData } from "@/app/actions/data";
 import { useNotificationStore } from "@/lib/zustand/providers/NotificationStateProvider";
+import io from "socket.io-client";
 
 export default function TableData() {
   const { showToast } = useNotificationStore((store) => store);
@@ -63,6 +64,10 @@ export default function TableData() {
       if (error) {
         showToast(error, "error");
       } else {
+        const socket = io("http://localhost:3000");
+        socket.emit("notification-server", {
+          msg: "Your admin has added new data. Please check your dashboard",
+        });
         showToast("Uploaded Files", "success");
       }
     } else {
