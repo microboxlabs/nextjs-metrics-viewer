@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import { POST } from "@/app/api/auth/login/route";
+import { POST } from "@/app/api/auth/[...nextauth]/route";
 import { DatabaseConnection } from "@/lib/db";
 import { users } from "@/lib/db/schemas/user";
 import { UserFactory } from "@/test/factories/users";
@@ -15,7 +15,7 @@ jest.mock("next/server", () => ({
   },
 }));
 
-describe("POST /api/auth/login", () => {
+describe("POST /app/api/auth/[...nextauth]/route", () => {
   const mockUser = UserFactory.validUser().build();
 
   beforeAll(async () => {

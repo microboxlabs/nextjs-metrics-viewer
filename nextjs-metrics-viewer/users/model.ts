@@ -84,6 +84,19 @@ export class UserModel {
     return `${this.__firstName} ${this.__lastName}`;
   }
 
+  get props() {
+    return {
+      id: this.__id || undefined,
+      firstName: this.__firstName,
+      lastName: this.__lastName,
+      email: this.__email,
+      role: this.__role,
+      isActive: this.__isActive || undefined,
+      createdAt: this.__createdAt || undefined,
+      updatedAt: this.__updatedAt || undefined,
+    };
+  }
+
   public activeUser() {
     return new UserModel({
       id: this.__id,
