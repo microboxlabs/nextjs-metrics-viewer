@@ -1,4 +1,4 @@
-import Divider from "@/components/Divider/DividerComponent";
+import Divider from "@/app/components/Divider/DividerComponent";
 import TableData from "./Components/Table/TableData";
 export default function UploadPage() {
   return (

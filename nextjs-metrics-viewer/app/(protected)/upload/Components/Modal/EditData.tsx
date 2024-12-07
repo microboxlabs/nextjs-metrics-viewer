@@ -71,7 +71,7 @@ export default function EditModal({
                 </label>
                 <Field type="number" min={0} id="price" name="price" />
               </div>
-              <Button className="my-3" type="submit" onClick={() => onSave()}>
+              <Button className="my-3" type="submit">
                 Submit
               </Button>
             </Form>

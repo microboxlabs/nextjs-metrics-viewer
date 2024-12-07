@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -38,8 +38,21 @@ interface BarChartProps {
 }
 
 const BarChart: React.FC<BarChartProps> = ({ data }) => {
+  const [chartData, setChartData] = useState<{
+    labels: string[];
+    datasets: {
+      label: string;
+      data: number[];
+      backgroundColor: string;
+      borderColor: string;
+      borderWidth: number;
+    }[];
+  } | null>(null);
+
+  useEffect(() => {
+    setChartData(transformData(data));
+  }, [data]);
   // Transformar datos
-  const chartData = transformData(data);
 
   // Opciones del gráfico
   const options = {
@@ -71,49 +84,58 @@ const BarChart: React.FC<BarChartProps> = ({ data }) => {
     },
   };
 
-  return(
+  return (
     <div className="h-64 w-full md:h-96">
-      <Bar data={chartData} options={options} />
+      {chartData && <Bar data={chartData} options={options} />}
     </div>
-  ) 
+  );
 };
 
 // Helper function para transformar los datos
 const transformData = (data: DataEntry[]) => {
-  const dates = data.map((item) => item.date);
-  const categories = Array.from(
-    new Set(data.flatMap((item) => item.categories.map((cat) => cat.category))),
-  );
+  if (data.length > 0) {
+    const dates = data.map((item) => item.date);
+    const categories = Array.from(
+      new Set(
+        data.flatMap((item) => item.categories.map((cat) => cat.category)),
+      ),
+    );
 
-  const datasets = categories.map((category) => {
-    const categoryData = data.map((item) => {
-      const match = item.categories.find((cat) => cat.category === category);
-      return match ? match.value : 0; // Rellenar con 0 si no hay datos
+    const datasets = categories.map((category) => {
+      const categoryData = data.map((item) => {
+        const match = item.categories.find((cat) => cat.category === category);
+        return match ? match.value : 0;
+      });
+
+      return {
+        label: category,
+        data: categoryData,
+        backgroundColor:
+          category === "Expenses"
+            ? "rgba(255, 99, 132, 0.5)"
+            : category === "Sales"
+              ? "rgba(54, 162, 235, 0.5)"
+              : "rgba(75, 192, 192, 0.5)",
+        borderColor:
+          category === "Expenses"
+            ? "rgba(255, 99, 132, 1)"
+            : category === "Sales"
+              ? "rgba(54, 162, 235, 1)"
+              : "rgba(75, 192, 192, 1)",
+        borderWidth: 1,
+      };
     });
 
     return {
-      label: category,
-      data: categoryData,
-      backgroundColor:
-        category === "Expenses"
-          ? "rgba(255, 99, 132, 0.5)"
-          : category === "Sales"
-            ? "rgba(54, 162, 235, 0.5)"
-            : "rgba(75, 192, 192, 0.5)", // Color genérico para otras categorías
-      borderColor:
-        category === "Expenses"
-          ? "rgba(255, 99, 132, 1)"
-          : category === "Sales"
-            ? "rgba(54, 162, 235, 1)"
-            : "rgba(75, 192, 192, 1)",
-      borderWidth: 1,
+      labels: dates,
+      datasets,
     };
-  });
-
-  return {
-    labels: dates,
-    datasets,
-  };
+  } else {
+    return {
+      labels: [],
+      datasets: [],
+    };
+  }
 };
 
 export default BarChart;

@@ -1,7 +1,8 @@
 "use client";
 
-import { RegisterAction } from "@/actions/auth-actions";
+import { RegisterAction } from "@/app/actions/auth-actions";
 import { startTransition, useTransition } from "react";
+import { useNotificationStore } from "@/lib/zustand/providers/NotificationStateProvider";
 import { Formik, Field, Form, FormikHelpers } from "formik";
 
 import { useRouter } from "next/navigation";
@@ -14,6 +15,7 @@ export interface RegisterValues {
 }
 
 export default function RegisterForm() {
+  const { showToast } = useNotificationStore((store) => store);
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   return (
@@ -30,17 +32,17 @@ export default function RegisterForm() {
         { setSubmitting }: FormikHelpers<RegisterValues>,
       ) => {
         startTransition(async () => {
-          const response = await RegisterAction(values);
+          const { error } = await RegisterAction(values);
           setSubmitting(false);
-          if (response.error) {
-            console.log(response.error);
+          if (error) {
+            showToast(error, "error");
           } else {
             router.push("/");
           }
         });
       }}
     >
-      <Form className="absolute m-auto w-96 rounded-lg bg-slate-50 p-8 shadow-md">
+      <Form className="h-5/6 w-full p-10">
         <h1 className="mb-6 text-center text-2xl font-bold">Register</h1>
         <section className="mb-6 grid grid-cols-1 gap-6">
           <div>

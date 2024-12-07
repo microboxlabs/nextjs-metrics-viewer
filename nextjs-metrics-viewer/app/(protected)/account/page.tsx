@@ -1,8 +1,8 @@
 import { auth } from "@/auth";
 import Image from "next/image";
 import Account from "@/public/account.png";
-import { getUser } from "@/actions/user";
-import Divider from "@/components/Divider/DividerComponent";
+import { getUser } from "@/app/actions/user";
+import Divider from "@/app/components/Divider/DividerComponent";
 import ProfileEditForm from "./Components/Form/ProfileEditForm";
 export default async function AccountPage() {
   const id = await auth().then((data) => data?.user.id);

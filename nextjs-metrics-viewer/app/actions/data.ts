@@ -25,7 +25,7 @@ export const uploadData = (data: Record<string, string>[]) => {
     });
     return { success: true };
   } catch (error) {
-    return { error: error };
+    return { error: "Error trying upload Data. Please try again" };
   }
 };
 
@@ -53,7 +53,14 @@ export const getAllData = async (filters: any = {}): Promise<IData | null> => {
         dataTable: data,
       };
     } else {
-      return null;
+      return {
+        min: 0,
+        max: 0,
+        total: 0,
+        avg: 0,
+        data: [],
+        dataTable: [],
+      };
     }
   } catch (error) {
     return null;
@@ -63,10 +70,9 @@ export const getAllData = async (filters: any = {}): Promise<IData | null> => {
 function groupDataByDate(
   data: { date: string; category: string; value: number; id: number }[],
 ) {
-  if (data.length > 1) {
+  if (data.length > 0) {
     return data.reduce((acc: any, { date, category, value }: any) => {
       const entry = acc.find((item: any) => item.date === date);
-
       if (!entry) {
         acc.push({
           date,
@@ -75,7 +81,6 @@ function groupDataByDate(
       } else {
         entry.categories.push({ category, value });
       }
-
       return acc;
     }, []);
   }
@@ -90,4 +95,48 @@ export async function getCategories() {
     return categories;
   }
   return [];
+}
+
+export async function getTableData() {
+  try {
+    const data = await prisma.metrics.findMany();
+    return { data };
+  } catch (error) {
+    return { error: "Error 500" };
+  }
+}
+
+export async function updateTableData(data: {
+  id: number;
+  date: string;
+  category: string;
+  value: number;
+}) {
+  try {
+    const metrics = await prisma.metrics.update({
+      where: { id: data.id },
+      data: {
+        category: data.category,
+        date: data.date,
+        value: +data.value,
+      },
+    });
+    if (metrics) {
+      return { success: true };
+    }
+    return { error: "There is no data for update" };
+  } catch (error) {
+    return { error: "Error 500" };
+  }
+}
+
+export async function deleteTableData(id: number) {
+  try {
+    await prisma.metrics.delete({
+      where: { id },
+    });
+    return { success: true };
+  } catch (error) {
+    return { error: "Error 500" };
+  }
 }

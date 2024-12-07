@@ -2,30 +2,23 @@
 
 import * as React from "react";
 import { Sidebar } from "flowbite-react";
-import { useSidebarStore } from "@/providers/SidebarStateProvider";
 import { FiUser } from "react-icons/fi";
 import { CgLogOut } from "react-icons/cg";
 import { SlGraph } from "react-icons/sl";
-import { signOutAction } from "@/actions/auth-actions";
+import { signOutAction } from "@/app/actions/auth-actions";
 import { useRouter } from "next/navigation";
 import { FaDatabase } from "react-icons/fa6";
 import { RxUpload } from "react-icons/rx";
-import GetSession from "@/actions/get-session";
+import { useSessionStore } from "@/lib/zustand/providers/SessionStateProvider";
 
 export default function SidebarComponent() {
-  const { open, setOpen } = useSidebarStore((state) => state);
+  const { session, setSession } = useSessionStore((store) => store);
   const router = useRouter();
-  const [session, setSession] = React.useState<any>(null);
+  const [open, setOpen] = React.useState<boolean>(false);
 
   React.useEffect(() => {
-    const FetchSession = async () => {
-      const session = await GetSession();
-      if (session) {
-        setSession(session.user);
-      }
-    };
-    FetchSession();
-  }, []);
+    setSession();
+  }, [setSession]);
 
   const HandleLogout = async () => {
     await signOutAction();

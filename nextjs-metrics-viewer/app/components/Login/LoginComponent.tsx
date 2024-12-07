@@ -1,16 +1,16 @@
 "use client";
-import { loginAction } from "@/actions/auth-actions";
-import { startTransition, useTransition } from "react";
+import { loginAction } from "@/app/actions/auth-actions";
+import { useTransition } from "react";
 import { Formik, Field, Form, FormikHelpers } from "formik";
-
+import { useNotificationStore } from "@/lib/zustand/providers/NotificationStateProvider";
 import { useRouter } from "next/navigation";
-
 export interface Values {
   email: string;
   password: string;
 }
 
 export default function LoginForm() {
+  const { showToast } = useNotificationStore((state) => state);
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
   return (
@@ -24,14 +24,14 @@ export default function LoginForm() {
           const response = await loginAction(values);
           setSubmitting(false);
           if (response.error) {
-            console.log(response.error);
+            showToast(response.error, "error");
           } else {
             router.push("/dashboard");
           }
         });
       }}
     >
-      <Form className="absolute m-auto w-96 rounded-lg bg-slate-50 p-8 shadow-md">
+      <Form className="h-96 w-full p-10">
         <h1 className="mb-6 text-center text-2xl font-bold">Login</h1>
         <div className="mb-4">
           <label htmlFor="email" className="mb-1 block text-sm font-medium">

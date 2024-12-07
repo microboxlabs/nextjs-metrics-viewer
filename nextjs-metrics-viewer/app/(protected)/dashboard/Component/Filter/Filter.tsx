@@ -1,8 +1,9 @@
 import { Formik, Field, Form, FormikHelpers } from "formik";
-import { Button, Label, Select } from "flowbite-react";
+import { Button, Label, Select, Datepicker } from "flowbite-react";
 
 export interface FilterValues {
-  date: string;
+  fromDate: string;
+  toDate: string;
   category: string;
 }
 
@@ -14,7 +15,8 @@ export default function FilterComponent({ categories, onFilterAplied }: props) {
   return (
     <Formik
       initialValues={{
-        date: "",
+        fromDate: "",
+        toDate: "",
         category: "",
       }}
       onSubmit={(
@@ -22,8 +24,13 @@ export default function FilterComponent({ categories, onFilterAplied }: props) {
         { setSubmitting }: FormikHelpers<FilterValues>,
       ) => {
         const data = {};
-        if (value.date != "") {
-          Object.assign(data, { date: value.date });
+        if (value.fromDate != "" && value.toDate !== "") {
+          Object.assign(data, {
+            date: {
+              lte: new Date(value.toDate).toISOString(),
+              gte: new Date(value.fromDate).toISOString(),
+            },
+          });
         }
         if (value.category != "") {
           Object.assign(data, { category: value.category });
@@ -32,15 +39,33 @@ export default function FilterComponent({ categories, onFilterAplied }: props) {
         setSubmitting(false);
       }}
     >
-      {({ values, setFieldValue, handleBlur }) => (
+      {({ setFieldValue }) => (
         <Form className="flex size-full flex-col items-center justify-evenly md:flex-row">
           <div className="flex flex-row items-center justify-center">
             <Label
-              htmlFor="date"
+              htmlFor="fromDate"
               className="mx-1 text-base font-normal"
-              value="Date: "
+              value="Date From: "
             />
-            <Field type="date" name="date" id="date" />
+            <input
+              type="date"
+              onChange={(e) => setFieldValue("fromDate", e.target.value)}
+              id="fromDate"
+              name="fromDate"
+            ></input>
+          </div>
+          <div className="flex flex-row items-center justify-center">
+            <Label
+              htmlFor="toDate"
+              className="mx-1 text-base font-normal"
+              value="Date To: "
+            />
+            <input
+              type="date"
+              onChange={(e) => setFieldValue("toDate", e.target.value)}
+              id="toDate"
+              name="toDate"
+            ></input>
           </div>
           <div className="flex flex-row items-center justify-center">
             <Label

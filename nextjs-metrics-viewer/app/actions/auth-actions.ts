@@ -3,8 +3,8 @@
 import { signIn, signOut } from "@/auth";
 import { AuthError } from "next-auth";
 import { prisma } from "@/prisma";
-import { Values } from "@/components/Login/LoginComponent";
-import { RegisterValues } from "@/components/Register/RegisterComponent";
+import { Values } from "@/app/components/Login/LoginComponent";
+import { RegisterValues } from "@/app/components/Register/RegisterComponent";
 import bcrypt from "bcryptjs";
 
 export const loginAction = async (values: Values) => {
@@ -64,6 +64,6 @@ export const RegisterAction = async (values: RegisterValues) => {
     if (error instanceof AuthError) {
       return { error: error.cause?.err?.message };
     }
-    return { error: error };
+    return { error: "Could not registate user. Please, try again" };
   }
 };

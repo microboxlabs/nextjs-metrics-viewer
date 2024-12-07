@@ -1,7 +1,9 @@
-import SidebarComponent from "@/components/Sidebar/SidebarComponent";
-import { SidebarStoreProvider } from "@/providers/SidebarStateProvider";
-import NavbarComponent from "@/components/Navbar/NavbarComponent";
-import { MetricsStoreProvider } from "@/providers/MetricsStateProvider";
+"use client";
+import SidebarComponent from "@/app/components/Sidebar/SidebarComponent";
+import NavbarComponent from "@/app/components/Navbar/NavbarComponent";
+import { MetricsStoreProvider } from "@/lib/zustand/providers/MetricsStateProvider";
+import { SessionStoreProvider } from "@/lib/zustand/providers/SessionStateProvider";
+
 export default function Layout({
   children,
 }: Readonly<{
@@ -9,7 +11,7 @@ export default function Layout({
 }>) {
   return (
     <>
-      <SidebarStoreProvider>
+      <SessionStoreProvider>
         <NavbarComponent />
         <div className="flex flex-row">
           <SidebarComponent />
@@ -19,7 +21,7 @@ export default function Layout({
             </div>
           </main>
         </div>
-      </SidebarStoreProvider>
+      </SessionStoreProvider>
     </>
   );
 }

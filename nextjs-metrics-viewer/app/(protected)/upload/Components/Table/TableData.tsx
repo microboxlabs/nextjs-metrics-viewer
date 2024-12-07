@@ -1,15 +1,17 @@
 "use client";
 import { Button, Table } from "flowbite-react";
 import { FaFileCsv } from "react-icons/fa";
-import { ReadCSV } from "@/utils/utils";
+import { ReadCSV } from "@/lib/utils/utils";
 import { useState, useEffect, useRef } from "react";
 import { GoPlus } from "react-icons/go";
 import AddModal from "../Modal/AddData";
 import EditModal from "../Modal/EditData";
 import DeleteModal from "../Modal/DeleteData";
-import { uploadData } from "@/actions/data";
+import { uploadData } from "@/app/actions/data";
+import { useNotificationStore } from "@/lib/zustand/providers/NotificationStateProvider";
 
 export default function TableData() {
+  const { showToast } = useNotificationStore((store) => store);
   const [data, setData] = useState<Record<string, string>[]>([]);
   const [openAdd, setOpenAdd] = useState<boolean>(false);
   const [addData, setAddData] = useState<object | null>(null);
@@ -48,10 +50,10 @@ export default function TableData() {
           fileInputRef.current.value = "";
         }
       } else {
-        console.log("Not file: ", files);
+        showToast(`No files found`, "error");
       }
     } catch (error) {
-      console.error("Error al leer el archivo CSV:", error);
+      showToast("Can not read the CSV file", "error");
     }
   };
 
@@ -59,12 +61,12 @@ export default function TableData() {
     if (data.length > 0) {
       const { error } = uploadData(data);
       if (error) {
-        console.log(error);
+        showToast(error, "error");
       } else {
-        console.log("Uploaded Files");
+        showToast("Uploaded Files", "success");
       }
     } else {
-      console.log("No data");
+      showToast("No data to upload", "error");
     }
   };
 

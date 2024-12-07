@@ -32,7 +32,6 @@ export default function AddModal({ open, onClose, onSave }: props) {
                 Category: values.category,
                 Value: values.price.toString(),
               };
-              console.log(result);
               onSave(result);
               onClose(false);
               setSubmitting(false);
@@ -66,7 +65,7 @@ export default function AddModal({ open, onClose, onSave }: props) {
                 </label>
                 <Field type="number" min={0} id="price" name="price" />
               </div>
-              <Button className="my-3" type="submit" onClick={() => onSave()}>
+              <Button className="my-3" type="submit">
                 Submit
               </Button>
             </Form>

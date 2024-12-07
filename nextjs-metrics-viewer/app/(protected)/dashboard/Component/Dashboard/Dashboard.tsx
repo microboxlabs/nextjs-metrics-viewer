@@ -1,8 +1,8 @@
 "use client";
 
-import Divider from "@/components/Divider/DividerComponent";
+import Divider from "@/app/components/Divider/DividerComponent";
 import ChartComponent from "../Chart/Chart";
-import { useMetricsStore } from "@/providers/MetricsStateProvider";
+import { useMetricsStore } from "@/lib/zustand/providers/MetricsStateProvider";
 import TableComponent from "../Table/Table";
 import FilterComponent from "../Filter/Filter";
 import { useEffect } from "react";
@@ -47,14 +47,11 @@ export default function DashboardComponent({ categories }: DashboardProps) {
     <>
       <h1 className="text-2xl">Dashboard</h1>
       <Divider />
-      <div className="my-5 flex size-96 flex-col items-center justify-center md:h-10 md:w-full md:flex-row">
+      <div className="my-5 flex size-80 flex-col items-center justify-center md:h-10 md:w-full md:flex-row">
         <p className="text-lg">Filters:</p>
         <FilterComponent
           categories={categories}
-          onFilterAplied={async (values: {
-            date: string;
-            category: string;
-          }) => {
+          onFilterAplied={(values: { date: {}; category: string }) => {
             getData(values);
           }}
         />
@@ -87,7 +84,7 @@ export default function DashboardComponent({ categories }: DashboardProps) {
         </div>
       </section>
       <section className="m-0 md:ml-1">
-        <div className="mt-10 h-96 w-full rounded-lg bg-slate-100 shadow-lg md:size-56 lg:size-[64rem]">
+        <div className="mt-10 w-11/12 rounded-lg bg-slate-100 shadow-lg md:w-[64rem] ">
           <h3 className="py-5 text-center text-xl font-semibold">Total Data</h3>
           <TableComponent data={data?.dataTable} />
         </div>

@@ -2,9 +2,9 @@
 
 import { FileInput, Label } from "flowbite-react";
 import { Formik, Field, Form, FormikHelpers } from "formik";
-import { UpdateUser } from "@/actions/user";
+import { UpdateUser } from "@/app/actions/user";
 import { useRouter } from "next/navigation";
-import { signOutAction } from "@/actions/auth-actions";
+import { signOutAction } from "@/app/actions/auth-actions";
 
 export interface ProfileInitialValues {
   name: string;
