@@ -4,10 +4,8 @@ import { useSession } from "next-auth/react";
 
 export default function UploadDataModal({
   updateOptions,
-  updateChart,
 }: {
   updateOptions: (data: string) => void;
-  updateChart: () => void;
 }) {
   const [openModal, setOpenModal] = useState(false);
   const [file, setFile] = useState<File | null>(null);
@@ -92,7 +90,6 @@ export default function UploadDataModal({
             <Button
               onClick={() => {
                 setOpenModal(false);
-                updateChart();
                 setFile(null);
               }}
             >

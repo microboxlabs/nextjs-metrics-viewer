@@ -1,4 +1,4 @@
-import { Headers, formattedSeries } from "@/interfaces";
+import { Headers, Series } from "@/interfaces";
 
 export function ProccessDataToSeries(data: string) {
   const text = data.split("\r\n");
@@ -34,7 +34,7 @@ export function ProccessDataToSeries(data: string) {
     });
   });
 
-  const mapData = new Map<string, formattedSeries>();
+  const mapData = new Map<string, Series>();
 
   normalizedData.forEach((row) => {
     const category = row[Headers.Category];
@@ -48,7 +48,7 @@ export function ProccessDataToSeries(data: string) {
     if (!row[Headers.Date] || !row[Headers.Value]) return;
     mapData
       .get(category)
-      ?.data.push({ x: row[Headers.Date], y: row[Headers.Value] });
+      ?.data.push({ x: new Date(row[Headers.Date]), y: row[Headers.Value] });
   });
 
   const dataSeries = Array.from(mapData.values()) as [];
