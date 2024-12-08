@@ -1,4 +1,5 @@
-import { Button, Modal, FileInput, Label } from "flowbite-react";
+import { Button, Modal, FileInput, Label, Alert } from "flowbite-react";
+import { HiInformationCircle } from "react-icons/hi";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 
@@ -10,6 +11,7 @@ export default function UploadDataModal({
   const [openModal, setOpenModal] = useState(false);
   const [file, setFile] = useState<File | null>(null);
   const { data: session } = useSession();
+  const [error, setError] = useState(false);
 
   if (!session?.user.isAdmin) return;
 
@@ -19,8 +21,9 @@ export default function UploadDataModal({
     };
     const file = target.files[0];
     if (file.type !== "text/csv") {
-      alert("Please upload a CSV file");
-      return;
+      setError(true);
+    } else {
+      setError(false);
     }
 
     setFile(file);
@@ -43,6 +46,17 @@ export default function UploadDataModal({
           setOpenModal(false);
         }}
       >
+        {error && (
+          <Alert
+            className="absolute -top-20 left-1/2 -translate-x-1/2"
+            color="failure"
+            icon={HiInformationCircle}
+          >
+            <span className="font-medium">Info alert!</span> Change a few things
+            up and try submitting again.
+          </Alert>
+        )}
+
         <div className="rounded-md bg-gray-800">
           <Modal.Header className="border-gray-700">
             <span className="text-white">Upload your CSV file</span>
@@ -92,6 +106,7 @@ export default function UploadDataModal({
                 setOpenModal(false);
                 setFile(null);
               }}
+              disabled={error}
             >
               Done
             </Button>
