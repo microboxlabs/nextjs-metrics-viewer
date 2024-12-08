@@ -23,11 +23,11 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="w-1/4 rounded-lg border border-gray-700 p-8">
-      <form className="flex max-w-md flex-col gap-4" action={formAction}>
+    <div className="w-full max-w-md rounded-lg border border-gray-700 bg-gray-900 p-8">
+      <form className="flex flex-col gap-4" action={formAction}>
         <div>
           <div className="mb-2 block">
-            <Label htmlFor="name" value="Name" />
+            <Label className="text-white" htmlFor="name" value="Name" />
           </div>
           <TextInput
             id="name"
@@ -39,7 +39,7 @@ export default function LoginForm() {
         </div>
         <div>
           <div className="mb-2 block">
-            <Label htmlFor="password" value="Password" />
+            <Label className="text-white" htmlFor="password" value="Password" />
           </div>
           <TextInput
             id="password"
