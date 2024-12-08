@@ -1,0 +1,160 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "date": "2024-11-01",
+      "category": "Sales",
+      "value": 300
+    },
+    {
+      "id": "2",
+      "date": "2024-11-02",
+      "category": "Sales",
+      "value": 200
+    },
+    {
+      "id": "43f7",
+      "date": "2024-10-01",
+      "category": "Sales",
+      "value": 200
+    },
+    {
+      "id": "628f",
+      "date": "2024-09-01",
+      "category": "Expenses",
+      "value": 150
+    },
+    {
+      "id": "a892",
+      "date": "2024-11-02",
+      "category": "Sales",
+      "value": 300
+    },
+    {
+      "id": "13eb",
+      "date": "2024-11-22",
+      "category": "Expenses",
+      "value": 100
+    },
+    {
+      "id": "9620",
+      "date": "2024-11-23",
+      "category": "Sales",
+      "value": 250
+    },
+    {
+      "id": "2fec",
+      "date": "2024-11-13",
+      "category": "Marketing",
+      "value": 50
+    },
+    {
+      "id": "5db8",
+      "date": "2024-12-04",
+      "category": "Expenses",
+      "value": 180
+    },
+    {
+      "id": "32a8",
+      "date": "2024-12-04",
+      "category": "Marketing",
+      "value": 80
+    },
+    {
+      "id": "43e8",
+      "date": "2024-11-01",
+      "category": "Sales",
+      "value": 200
+    },
+    {
+      "id": "774f",
+      "date": "2024-11-01",
+      "category": "Expenses",
+      "value": 150
+    },
+    {
+      "id": "07aa",
+      "date": "2024-11-02",
+      "category": "Sales",
+      "value": 300
+    },
+    {
+      "id": "4ceb",
+      "date": "2024-11-02",
+      "category": "Expenses",
+      "value": 100
+    },
+    {
+      "id": "743e",
+      "date": "2024-11-03",
+      "category": "Sales",
+      "value": 250
+    },
+    {
+      "id": "6338",
+      "date": "2024-11-03",
+      "category": "Marketing",
+      "value": 50
+    },
+    {
+      "id": "b4d9",
+      "date": "2024-11-04",
+      "category": "Expenses",
+      "value": 180
+    },
+    {
+      "id": "4368",
+      "date": "2024-11-04",
+      "category": "Marketing",
+      "value": 80
+    },
+    {
+      "id": "c76c",
+      "date": "2024-10-01",
+      "category": "Sales",
+      "value": 200
+    },
+    {
+      "id": "d068",
+      "date": "2024-09-01",
+      "category": "Expenses",
+      "value": 150
+    },
+    {
+      "id": "1106",
+      "date": "2024-11-02",
+      "category": "Sales",
+      "value": 300
+    },
+    {
+      "id": "a8f4",
+      "date": "2024-11-22",
+      "category": "Expenses",
+      "value": 100
+    },
+    {
+      "id": "db02",
+      "date": "2024-11-23",
+      "category": "Sales",
+      "value": 250
+    },
+    {
+      "id": "fe0c",
+      "date": "2024-11-13",
+      "category": "Marketing",
+      "value": 50
+    },
+    {
+      "id": "95a6",
+      "date": "2024-12-04",
+      "category": "Expenses",
+      "value": 180
+    },
+    {
+      "id": "d577",
+      "date": "2024-12-04",
+      "category": "Marketing",
+      "value": 80
+    }
+  ]
+}
