@@ -1,5 +1,6 @@
 import { Button, Modal, FileInput, Label } from "flowbite-react";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 
 export default function UploadDataModal({
   updateOptions,
@@ -10,6 +11,9 @@ export default function UploadDataModal({
 }) {
   const [openModal, setOpenModal] = useState(false);
   const [file, setFile] = useState<File | null>(null);
+  const { data: session } = useSession();
+
+  if (!session?.user.isAdmin) return;
 
   const readFile = (event: React.FormEvent<HTMLInputElement>) => {
     const target = event.target as HTMLInputElement & {
