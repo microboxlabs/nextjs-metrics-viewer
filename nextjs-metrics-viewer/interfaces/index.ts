@@ -63,7 +63,7 @@ export interface Series {
 }
 
 export interface Datum {
-  x: Date;
+  x: string;
   y: string;
 }
 
