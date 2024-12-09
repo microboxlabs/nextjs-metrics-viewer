@@ -1,21 +1,11 @@
 "use client";
-import ApexCharts from "apexcharts";
 import { useState, useEffect } from "react";
 import MetricsChart from "@/components/MetricsChart";
 import UploadDataModal from "@/components/UploadDataModal";
 import { INITIAL_OPTIONS, INITIAL_METRICS } from "@/contants";
-import { getSummaryMetrics, ProccessDataToSeries } from "@/utils";
+import { getSummaryMetrics, ProccessDataToSeries, updateChart } from "@/utils";
 import MetricsView from "./MetricsView";
 import { Options, Metrics } from "@/interfaces";
-
-const updateChart = (data: Options) => {
-  const chartElement = document.getElementById("column-chart");
-  if (chartElement && typeof ApexCharts !== "undefined") {
-    chartElement.innerHTML = "";
-    const chart = new ApexCharts(chartElement, data);
-    chart.render();
-  }
-};
 
 export default function MetricsSection() {
   const [options, setOptions] = useState<Options>(() => {

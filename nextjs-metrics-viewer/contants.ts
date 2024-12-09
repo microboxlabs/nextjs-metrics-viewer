@@ -35,7 +35,7 @@ export const INITIAL_OPTIONS = {
   },
   series: [],
   legend: {
-    show: true,
+    show: false,
   },
 };
 

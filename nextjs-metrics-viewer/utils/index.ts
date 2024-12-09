@@ -1,5 +1,6 @@
+import ApexCharts from "apexcharts";
 import { INITIAL_METRICS } from "@/contants";
-import { Headers, Series } from "@/interfaces";
+import { Headers, Options, Series } from "@/interfaces";
 
 export function ProccessDataToSeries(data: string) {
   const text = data.split("\r\n");
@@ -91,3 +92,12 @@ export function getSummaryMetrics(series: Series[]) {
     average,
   };
 }
+
+export const updateChart = (data: Options) => {
+  const chartElement = document.getElementById("column-chart");
+  if (chartElement && typeof ApexCharts !== "undefined") {
+    chartElement.innerHTML = "";
+    const chart = new ApexCharts(chartElement, data);
+    chart.render();
+  }
+};
