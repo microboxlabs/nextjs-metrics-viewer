@@ -1,8 +1,8 @@
 "use client";
-import { Button, Table } from "flowbite-react";
+import { Button, Spinner, Table } from "flowbite-react";
 import { FaFileCsv } from "react-icons/fa";
 import { ReadCSV } from "@/lib/utils/utils";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useTransition } from "react";
 import { GoPlus } from "react-icons/go";
 import AddModal from "../Modal/AddData";
 import EditModal from "../Modal/EditData";
@@ -28,6 +28,8 @@ export default function TableData() {
   const [openDelete, setOpenDelete] = useState<boolean>(false);
   const [idDelete, setIdDelete] = useState<number>(0);
   const [confirmDelete, setConfirmDelete] = useState<object | null>(null);
+  const [isPending, startTransition] = useTransition();
+  const [isPendingUpload, startTransitionUpload] = useTransition();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleEdit = (res: any) =>
@@ -39,40 +41,44 @@ export default function TableData() {
   const handleDelete = (res: any) =>
     setData((prevData) => prevData.filter((item, index) => index != res.id));
 
-  const handleFileUpload = async (files: FileList | null) => {
-    try {
-      if (files) {
-        const file = files[0];
-        const result = await ReadCSV(file);
-        setData((prevData) => {
-          return prevData ? [...prevData, ...result] : result;
-        });
-        if (fileInputRef.current) {
-          fileInputRef.current.value = "";
+  const handleFileUpload = (files: FileList | null) => {
+    startTransitionUpload(async() => {
+      try {
+        if (files) {
+          const file = files[0];
+          const result = await ReadCSV(file);
+          setData((prevData) => {
+            return prevData ? [...prevData, ...result] : result;
+          });
+          if (fileInputRef.current) {
+            fileInputRef.current.value = "";
+          }
+        } else {
+          showToast(`No files found`, "error");
         }
-      } else {
-        showToast(`No files found`, "error");
+      } catch (error) {
+        showToast("Can not read the CSV file", "error");
       }
-    } catch (error) {
-      showToast("Can not read the CSV file", "error");
-    }
+    })
   };
 
   const handleSubmit = () => {
-    if (data.length > 0) {
-      const { error } = uploadData(data);
-      if (error) {
-        showToast(error, "error");
+    startTransition(() => {
+      if (data.length > 0) {
+        const { error } = uploadData(data);
+        if (error) {
+          showToast(error, "error");
+        } else {
+          const socket = io("http://localhost:3000");
+          socket.emit("notification-server", {
+            msg: "Your admin has added new data. Please check your dashboard",
+          });
+          showToast("Uploaded Files", "success");
+        }
       } else {
-        const socket = io("http://localhost:3000");
-        socket.emit("notification-server", {
-          msg: "Your admin has added new data. Please check your dashboard",
-        });
-        showToast("Uploaded Files", "success");
+        showToast("No data to upload", "error");
       }
-    } else {
-      showToast("No data to upload", "error");
-    }
+    })
   };
 
   useEffect(() => {
@@ -96,7 +102,7 @@ export default function TableData() {
   return (
     <>
       <div className="my-5 flex w-full flex-row items-center justify-end">
-        <Button className="relative" color="success" pill>
+        <Button className="relative mr-10" color="success" pill disabled={isPendingUpload}>
           <input
             type="file"
             className="absolute inset-0 z-30 mx-auto size-full opacity-0"
@@ -106,8 +112,17 @@ export default function TableData() {
             }}
             ref={fileInputRef}
           />
-          <FaFileCsv className="mr-2 size-5" />
-          Upload CSV
+          {
+            isPendingUpload ? (<>
+              <Spinner/>
+              Uploading Files...
+            </>): (
+              <>
+              <FaFileCsv className="mr-2 size-5" />
+              Upload CSV
+              </>
+            )
+          }
         </Button>
       </div>
       <div className="my-5 flex w-full flex-row items-center justify-start">
@@ -170,10 +185,19 @@ export default function TableData() {
         <Button
           color="success"
           pill
-          disabled={!data}
+          disabled={data.length <= 0 || isPending}
           onClick={() => handleSubmit()}
         >
-          Save data
+          {
+            isPending ? (
+              <>
+                <Spinner/>
+                Loading...
+              </>
+            ): (
+              <>Save data</>
+            )
+          }
         </Button>
       </div>
       <AddModal

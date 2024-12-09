@@ -26,12 +26,10 @@ export interface IData {
   }[];
 }
 
-interface DashboardProps {
-  categories: { category: string }[];
-}
 
-export default function DashboardComponent({ categories }: DashboardProps) {
-  const { data, getData } = useMetricsStore((state) => state);
+
+export default function DashboardComponent() {
+  const { data, getData,categories } = useMetricsStore((state) => state);
   const styles = {
     cardContainer: "size-60 rounded-lg bg-slate-100 shadow-lg",
     cardHeaderContainer:

@@ -1,6 +1,12 @@
 "use server";
 import { prisma } from "@/prisma";
 import { IData } from "@/app/(protected)/dashboard/Component/Dashboard/Dashboard";
+
+/**
+ * A function that receives the data to be uploaded and performs the database entry. Returns an upload success object or an error object.
+ * @param data  - an Record's array with the data to be uploaded
+ * @returns a success object or an error object
+ */
 export const uploadData = (data: Record<string, string>[]) => {
   try {
     data.forEach(async (metric) => {
@@ -28,7 +34,11 @@ export const uploadData = (data: Record<string, string>[]) => {
     return { error: "Error trying upload Data. Please try again" };
   }
 };
-
+/**
+ * A function that gets all data in the database, aplying user's filters.
+ * @param filters - An Object with the user's filters
+ * @returns an Object with the min, the max,the total, the average, chart's data and table's data
+ */
 export const getAllData = async (filters: any = {}): Promise<IData | null> => {
   try {
     const data = await prisma.metrics.findMany({
@@ -66,7 +76,11 @@ export const getAllData = async (filters: any = {}): Promise<IData | null> => {
     return null;
   }
 };
-
+/**
+ * A function that group the data by the date.
+ * @param data  - An Object with date, category, value and id
+ * @returns An Array with the grouped data or an empty Array if there is no data
+ */
 function groupDataByDate(
   data: { date: string; category: string; value: number; id: number }[],
 ) {
@@ -86,17 +100,23 @@ function groupDataByDate(
   }
   return data;
 }
-
+/**
+ * A function that get all categories from database. The data will be show in dashboard category filter input
+ * @returns An Array with all categories or an empty Array if there is no data
+ */
 export async function getCategories() {
   const categories = await prisma.metrics.groupBy({
     by: ["category"],
   });
   if (categories) {
-    return categories;
+    return categories.map((data) => data)
   }
   return [];
 }
-
+/**
+ * A function that get all data in database to be managed in Manage Data
+ * @returns An Array with all data in database or an empty Array if there is no data
+ */
 export async function getTableData() {
   try {
     const data = await prisma.metrics.findMany();
@@ -106,6 +126,11 @@ export async function getTableData() {
   }
 }
 
+/**
+ * A function that update a data in database.
+ * @param data - An object with id, date, category and value
+ * @returns a success object or an error object
+ */
 export async function updateTableData(data: {
   id: number;
   date: string;
@@ -130,6 +155,11 @@ export async function updateTableData(data: {
   }
 }
 
+/**
+ * A function that delete a data in database.
+ * @param id - id of the data to be deleted
+ * @returns a success object or an error object
+ */
 export async function deleteTableData(id: number) {
   try {
     await prisma.metrics.delete({

@@ -1,24 +1,47 @@
-import NextAuth from "next-auth";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { prisma } from "@/prisma";
 import authConfig from "@/auth.config";
-
-export const { handlers, auth, signIn, signOut } = NextAuth({
+import { prisma } from "@/prisma";
+import NextAuth, { type DefaultSession } from "next-auth"
+ 
+declare module "next-auth" {
+  /**
+   * Returned by `auth`, `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
+   */
+  interface Session {
+    user: {
+      /** The user's postal address. */
+      isAdmin: boolean
+      /**
+       * By default, TypeScript merges new interface properties and overwrites existing ones.
+       * In this case, the default session user properties will be overwritten,
+       * with the new ones defined above. To keep the default session user properties,
+       * you need to add them back into the newly declared interface.
+       */
+    } & DefaultSession["user"]
+  }
+}
+ 
+export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
   ...authConfig,
   session: { strategy: "jwt" },
   callbacks: {
-    jwt({ token, user }) {
+    async jwt({ token, user }) {
       if (user) {
-        // User is available during sign-in
-        token.id = user.id;
-        token.role = user.role;
+        token.id = String(user.id);
+        token.isAdmin = user.isAdmin;
       }
       return token;
     },
-    session({ session, token }) {
-      session.user.role = token.role;
-      session.user.id = token?.id ? token.id : "";
+    async session({ session, token }) {
+      // Asigna el valor de isAdmin del token a la sesión
+      if (token) {
+        session.user = {
+          ...session.user,
+          id: token.id,
+          isAdmin: Boolean(token.isAdmin),
+        };
+      }
       return session;
     },
   },

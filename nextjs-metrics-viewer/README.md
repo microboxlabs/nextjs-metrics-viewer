@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+<h1 align="center">Metrics Viewer</h1>
 
-First, run the development server:
+<p align="center">
+  <img alt="Github top language" src="https://img.shields.io/github/languages/top/JavierGonzalez998/nextjs-metrics-viewer?color=56BEB8">
+
+  <img alt="Github language count" src="https://img.shields.io/github/languages/count/JavierGonzalez998/nextjs-metrics-viewer?color=56BEB8">
+
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/JavierGonzalez998/nextjs-metrics-viewer?color=56BEB8">
+
+  <img alt="License" src="https://img.shields.io/github/license/JavierGonzalez998/nextjs-metrics-viewer?color=56BEB8">
+
+  <!-- <img alt="Github issues" src="https://img.shields.io/github/issues/{{YOUR_GITHUB_USERNAME}}/flowbite-react-template-nextjs?color=56BEB8" /> -->
+
+  <img alt="Github forks" src="https://img.shields.io/github/forks/JavierGonzalez998/nextjs-metrics-viewer?color=56BEB8" />
+
+  <img alt="Github stars" src="https://img.shields.io/github/stars/JavierGonzalez998/nextjs-metrics-viewer?color=56BEB8" />
+</p>
+
+<!-- Status -->
+
+<!-- <h4 align="center"> 
+	🚧  Flowbite React Template Nextjs 🚀 Under construction...  🚧
+</h4> 
+
+<hr> -->
+
+<p align="center">
+  <a href="#dart-about">About</a> &#xa0; | &#xa0; 
+  <a href="#sparkles-features">Features</a> &#xa0; | &#xa0;
+  <a href="#rocket-technologies">Technologies</a> &#xa0; | &#xa0;
+  <a href="#white_check_mark-requirements">Requirements</a> &#xa0; | &#xa0;
+  <a href="#checkered_flag-starting">Starting</a> &#xa0; | &#xa0;
+  <a href="#memo-license">License</a> &#xa0; | &#xa0;
+  <a href="https://github.com/JavierGonzalez998" target="_blank">Author</a>
+</p>
+
+<br>
+
+## :dart: About ##
+
+Metrics View es una prueba tecnica para MicroBoxLabs el cual se basa en la visualización y manejo de datos en tiempo real.
+
+## :sparkles: Features ##
+
+:heavy_check_mark:  Integración con bases de datos;\
+:heavy_check_mark: Eventos en tiempo real;\
+:heavy_check_mark: Uso de ORM para manejo de bases de datos;
+:heavy_check_mark: Uso de ambiente de servidor de nextjs para realizar backend;
+
+## :rocket: Technologies ##
+
+Las siguientes herramientas fueron utilizadas en este proyecto:
+
+- [Node.js](https://nodejs.org/en/)
+- [React](https://pt-br.reactjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Zustand](https://zustand.docs.pmnd.rs/getting-started/introduction)
+- [Socket.io](https://socket.io/)
+- [Formik](https://formik.org/)
+- [Prisma](https://www.prisma.io/)
+- [Papaparse](https://www.papaparse.com/)
+
+## :white_check_mark: Requirements ##
+
+Antes de empezar :checkered_flag:, Debes tener [Git](https://git-scm.com) y [Node](https://nodejs.org/en/) instalados.
+
+## :checkered_flag: Starting ##
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Clone this project
+$ git clone https://github.com/JavierGonzalez998/flowbite-react-template-nextjs
+
+# Access
+$ cd flowbite-react-template-nextjs
+
+# Install dependencies
+$ yarn | npm i 
+
+# Run the project
+$ yarn start | npm run dev
+
+# The server will initialize in the <http://localhost:3000>
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Made with :heart: by <a href="https://github.com/JavierGonzalez998" target="_blank">Javier Gonzalez</a>
 
-## Learn More
+&#xa0;
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+<a href="#top">Back to top</a>

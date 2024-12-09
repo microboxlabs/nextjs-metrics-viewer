@@ -4,16 +4,21 @@ import { ProfileInitialValues } from "@/app/(protected)/account/Components/Form/
 import { Prisma } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import email from "next-auth/providers/email";
-//Get the session user data
-export async function getUser(idUser: number) {
+
+/**
+ * Get the user by id. 
+ * @param data - An Object with name, role and email or an Object with error
+ * @returns a success object or an error object
+ */
+export async function getUser(idUser: string) {
   try {
     const user = await prisma.user.findFirstOrThrow({
-      where: { id: idUser },
+      where: { id: idUser},
     });
 
     return {
       name: user?.name,
-      lastname: user?.lastname,
+      isAdmin: user?.isAdmin,
       email: user?.email,
     };
   } catch (error:any) {
@@ -21,13 +26,18 @@ export async function getUser(idUser: number) {
       error instanceof Prisma.PrismaClientKnownRequestError &&
       error.code == "P2025"
     ) {
-      return { error: "No se encuentra el usuario especificado" };
+      return { error: "The specified user is not found" };
     }
     return { error: "Error 500" };
   }
 }
-
-export async function UpdateUser(idUser: number, user: ProfileInitialValues) {
+/**
+ * Update the user data. 
+ * @param id - id of the user
+ * @param user - An Object with name, email and password. Object come from Update User Form
+ * @returns a success object or an error object
+ */
+export async function UpdateUser(idUser: string, user: {name:string, email:string, password:string}) {
   try {
     const password = await bcrypt.hash(user.password, 10);
 
@@ -35,7 +45,6 @@ export async function UpdateUser(idUser: number, user: ProfileInitialValues) {
       where: { id: idUser },
       data: {
         name: user.name,
-        lastname: user.lastname,
         email: user.email,
         password,
       },
@@ -47,8 +56,8 @@ export async function UpdateUser(idUser: number, user: ProfileInitialValues) {
       error instanceof Prisma.PrismaClientKnownRequestError &&
       error.code == "P2002"
     ) {
-      return { error: "Credentials not valid: (email)" };
+      return { error: "Email already in use" };
     }
-    return { error: "error 500" };
+    return { error: error };
   }
 }

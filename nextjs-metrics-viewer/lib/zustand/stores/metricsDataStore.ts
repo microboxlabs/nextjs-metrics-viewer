@@ -5,10 +5,16 @@ import {
   getTableData,
   updateTableData,
   deleteTableData,
+  getCategories,
 } from "@/app/actions/data";
+import { Prisma } from "@prisma/client";
 export type MetricsState = {
   data: IData;
   tableData: { id: number; date: string; category: string; value: number }[];
+  categories: (Prisma.PickEnumerable<
+    Prisma.MetricsGroupByOutputType,
+    "category"[]
+  > & {})[];
 };
 
 export type MetricsActions = {
@@ -43,6 +49,7 @@ export const defaultInitState: MetricsState = {
     dataTable: [],
   },
   tableData: [],
+  categories: [],
 };
 
 export const createMetricsStore = (
@@ -53,6 +60,10 @@ export const createMetricsStore = (
     getData: async (filter: any) => {
       const data = await getAllData(filter);
       if (data) {
+        const categories = await getCategories().then((data) => data);
+        if (categories) {
+          set({ categories });
+        }
         set({ data });
       }
     },

@@ -1,9 +1,9 @@
-import NextAuth from "next-auth";
-import authConfig from "./auth.config";
-import { redirect } from "next/dist/server/api-utils";
 import { NextResponse } from "next/server";
 
-const { auth: middleware } = NextAuth(authConfig);
+import NextAuth from "next-auth"
+import authConfig from "./auth.config"
+ 
+export const { auth: middleware } = NextAuth(authConfig)
 
 export const config = {
   matcher: [

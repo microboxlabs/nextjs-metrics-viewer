@@ -3,7 +3,7 @@ import { Button, Modal, Table } from "flowbite-react";
 import { useMetricsStore } from "@/lib/zustand/providers/MetricsStateProvider";
 import { CiEdit } from "react-icons/ci";
 import { FaTrash } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { Field, Form, Formik, FormikHelpers } from "formik";
 import { useNotificationStore } from "@/lib/zustand/providers/NotificationStateProvider";
 import io from "socket.io-client";
@@ -56,7 +56,7 @@ export default function TableManage() {
   };
 
   useEffect(() => {
-    getTableData();
+     getTableData()
   }, [getTableData]);
   return (
     <div className="overflow-scroll">

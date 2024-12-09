@@ -21,7 +21,6 @@ export default function SidebarComponent() {
   const [open, setOpen] = React.useState<boolean>(false);
   const [userSession, setUserSession] = React.useState<Session | null>(null);
 
-  React.useEffect(() => {}, []);
 
   React.useEffect(() => {
     const FetchSession = async () => {
@@ -31,7 +30,7 @@ export default function SidebarComponent() {
         connect();
         on("notification-client", (data) => {
           if (data) {
-            if (session?.user.role == 1) {
+            if (!session?.user?.isAdmin) {
               getData({});
               getTableData();
               showToast(data.msg, "info");
@@ -41,7 +40,7 @@ export default function SidebarComponent() {
       }
     };
     FetchSession();
-  }, [setSession, connect, on, showToast]);
+  }, [setSession, connect, on, showToast, getData, getTableData]);
 
   const HandleLogout = async () => {
     await signOutAction();
@@ -59,7 +58,7 @@ export default function SidebarComponent() {
           <Sidebar.Item href="/dashboard" icon={SlGraph}>
             {open && "Dashboard"}
           </Sidebar.Item>
-          {userSession?.user.role === 2 ? (
+          {userSession?.user.isAdmin && (
             <>
               <Sidebar.Item href="/upload" icon={RxUpload}>
                 {open && "Upload Data"}
@@ -68,7 +67,7 @@ export default function SidebarComponent() {
                 {open && "Manage Data"}
               </Sidebar.Item>
             </>
-          ) : null}
+          )}
         </Sidebar.ItemGroup>
         <Sidebar.ItemGroup>
           <Sidebar.Item href="/account" icon={FiUser}>

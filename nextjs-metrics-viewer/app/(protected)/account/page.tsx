@@ -1,12 +1,12 @@
-import { auth } from "@/auth";
+import GetSession from "@/app/actions/get-session";
 import Image from "next/image";
 import Account from "@/public/account.png";
 import { getUser } from "@/app/actions/user";
 import Divider from "@/app/components/Divider/DividerComponent";
 import ProfileEditForm from "./Components/Form/ProfileEditForm";
 export default async function AccountPage() {
-  const id = await auth().then((data) => data?.user.id);
-  const user = await getUser(id ? parseInt(id) : 0);
+  const session = await GetSession()
+  const user = session?.user
   return (
     <>
       <section className="mt-1 flex flex-col items-center justify-center md:m-0">
@@ -19,7 +19,7 @@ export default async function AccountPage() {
         </div>
         <div className="mt-6 flex flex-row">
           <p className="text-2xl font-semibold">
-            {user?.name} {user?.lastname}
+            {user?.name}
           </p>
         </div>
       </section>
@@ -28,9 +28,8 @@ export default async function AccountPage() {
         <Divider />
         <div className="flex items-center justify-center">
           <ProfileEditForm
-            id={id ? id : ""}
+            id={user?.id? user?.id : ""}
             name={user?.name ? user?.name : ""}
-            lastname={user?.lastname ? user?.lastname : ""}
             email={user?.email ? user?.email : ""}
           />
         </div>
