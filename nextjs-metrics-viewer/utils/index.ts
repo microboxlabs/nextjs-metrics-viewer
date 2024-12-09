@@ -1,3 +1,4 @@
+import { INITIAL_METRICS } from "@/contants";
 import { Headers, Series } from "@/interfaces";
 
 export function ProccessDataToSeries(data: string) {
@@ -57,6 +58,8 @@ export function ProccessDataToSeries(data: string) {
 }
 
 export function getSummaryMetrics(series: Series[]) {
+  if (!series.length) return INITIAL_METRICS;
+
   const max = series.reduce((acc, curr) => {
     return Math.max(
       acc,
@@ -79,9 +82,7 @@ export function getSummaryMetrics(series: Series[]) {
   }, 0);
 
   const average =
-    Math.round((100 * total) / (series.length * series[0]?.data.length)) / 100;
-
-  console.log(max, min);
+    Math.round((100 * total) / (series.length * series[0].data.length)) / 100;
 
   return {
     max,
