@@ -1,8 +1,9 @@
 "use client";
 import { useState, useEffect } from "react";
 import MetricsChart from "@/components/MetricsChart";
-import UploadDataModal from "@/components/UploadDataModal";
+import UploadDataButton from "@/components/UploadDataButton";
 import ToggleFilters from "@/components/ToogleFilter";
+import TimeFilter from "@/components/TimeFilter";
 import { Options, Series } from "@/interfaces";
 import { INITIAL_OPTIONS, INITIAL_METRICS } from "@/contants";
 import { getSummaryMetrics, ProccessTextToSeries } from "@/utils";
@@ -18,7 +19,7 @@ export default function MetricsSection() {
 
   const [metrics, setMetrics] = useState(INITIAL_METRICS);
 
-  const { createChart, toggleSeries } = useChart();
+  const { createChart, toggleSeries, updateSeries } = useChart();
 
   const loadOptions = (data: string) => {
     const dataToSeries = ProccessTextToSeries(data);
@@ -41,7 +42,14 @@ export default function MetricsSection() {
 
   return (
     <section className="flex w-full max-w-screen-xl flex-col gap-8">
-      <UploadDataModal loadOptions={loadOptions} />
+      <div className="flex w-full justify-between">
+        <TimeFilter
+          data={options}
+          updateMetrics={updateMetrics}
+          updateSeries={updateSeries}
+        />
+        <UploadDataButton loadOptions={loadOptions} />
+      </div>
       <MetricsView metrics={metrics} />
       <MetricsChart />
       <ToggleFilters

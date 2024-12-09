@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import ApexCharts from "apexcharts";
-import { Options } from "@/interfaces";
+import { Options, Series } from "@/interfaces";
 
 export const useChart = () => {
   const chartRef = useRef<ApexCharts | null>(null);
@@ -18,5 +18,9 @@ export const useChart = () => {
     chartRef.current?.toggleSeries(name);
   };
 
-  return { chartRef, createChart, toggleSeries };
+  const updateSeries = (series: Series[]) => {
+    chartRef.current?.updateSeries(series);
+  };
+
+  return { chartRef, createChart, toggleSeries, updateSeries };
 };

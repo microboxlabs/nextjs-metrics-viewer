@@ -3,7 +3,7 @@ import { HiInformationCircle } from "react-icons/hi";
 import { useState } from "react";
 import { useSession } from "next-auth/react";
 
-export default function UploadDataModal({
+export default function UploadDataButton({
   loadOptions,
 }: {
   loadOptions: (data: string) => void;
@@ -36,7 +36,7 @@ export default function UploadDataModal({
   };
 
   return (
-    <div className="flex w-full justify-end ">
+    <div>
       <Button onClick={() => setOpenModal(true)}>Upload data</Button>
 
       <Modal
