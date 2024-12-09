@@ -1,19 +1,19 @@
-export interface formattedSeries {
-  name: string;
-  data: { x: string; y: string }[];
-}
-
 export enum Headers {
   Date = "Date",
   Category = "Category",
   Value = "Value",
 }
 
+export interface formattedSeries {
+  name: string;
+  data: { x: string; y: string }[];
+}
+
 export interface Options {
   chart: Chart;
-  tooltip: WelcomeTooltip;
+  tooltip: Tooltip;
   dataLabels: DataLabels;
-  stroke: WelcomeStroke;
+  stroke: Stroke;
   grid: Grid;
   series: Series[];
   legend: Legend;
@@ -64,15 +64,15 @@ export interface Series {
 
 export interface Datum {
   x: string;
-  y: string;
+  y: number;
 }
 
-export interface WelcomeStroke {
+export interface Stroke {
   curve: string;
   width: number;
 }
 
-export interface WelcomeTooltip {
+export interface Tooltip {
   enabled: boolean;
   x: Legend;
 }
@@ -148,4 +148,11 @@ export interface Title {
 export interface YaxiTooltip {
   enabled: boolean;
   offsetX: number;
+}
+
+export interface Metrics {
+  max: number;
+  min: number;
+  total: number;
+  average: number;
 }

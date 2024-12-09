@@ -48,10 +48,45 @@ export function ProccessDataToSeries(data: string) {
     if (!row[Headers.Date] || !row[Headers.Value]) return;
     mapData
       .get(category)
-      ?.data.push({ x: row[Headers.Date], y: row[Headers.Value] });
+      ?.data.push({ x: row[Headers.Date], y: Number(row[Headers.Value]) });
   });
 
   const dataSeries = Array.from(mapData.values()) as [];
 
   return dataSeries;
+}
+
+export function getSummaryMetrics(series: Series[]) {
+  const max = series.reduce((acc, curr) => {
+    return Math.max(
+      acc,
+      curr.data.reduce((acc, curr) => Math.max(acc, curr.y), 0),
+    );
+  }, 0);
+
+  const min = series.reduce((acc, curr) => {
+    return Math.min(
+      acc,
+      curr.data.reduce((acc, curr) => Math.min(acc, curr.y), 0),
+    );
+  }, 0);
+
+  const total = series.reduce((acc, curr) => {
+    return (
+      Number(acc) +
+      curr.data.reduce((acc, curr) => Number(acc) + Number(curr.y), 0)
+    );
+  }, 0);
+
+  const average =
+    Math.round((100 * total) / (series.length * series[0]?.data.length)) / 100;
+
+  console.log(max, min);
+
+  return {
+    max,
+    min,
+    total,
+    average,
+  };
 }

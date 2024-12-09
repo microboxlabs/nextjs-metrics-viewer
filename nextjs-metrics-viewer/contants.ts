@@ -38,3 +38,10 @@ export const INITIAL_OPTIONS = {
     show: true,
   },
 };
+
+export const INITIAL_METRICS = {
+  max: 0,
+  min: 0,
+  total: 0,
+  average: 0,
+};
