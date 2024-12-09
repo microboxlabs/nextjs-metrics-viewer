@@ -21,26 +21,6 @@ export default function MetricsChart() {
             </h5>
           </div>
         </div>
-        {/* <div>
-          <span className="inline-flex items-center rounded-md  bg-green-900 px-2.5 py-1 text-xs font-medium text-green-300">
-            <svg
-              className="me-1.5 size-2.5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 10 14"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M5 13V1m0 0L1 5m4-4 4 4"
-              />
-            </svg>
-            42.5%
-          </span>
-        </div> */}
       </div>
 
       <div id="column-chart" className="w-full">
