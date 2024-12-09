@@ -1,8 +1,6 @@
-function DashboardPage() {
+async function DashboardPage() {
   return (
-    <div>
-      <h1>Dashboard</h1>
-    </div>
+    <div className="grid w-full grid-cols-1 gap-3 lg:grid-cols-2">GRÁFICOS</div>
   );
 }
 

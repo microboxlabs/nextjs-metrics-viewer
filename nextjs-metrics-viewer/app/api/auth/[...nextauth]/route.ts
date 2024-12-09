@@ -29,8 +29,10 @@ export const authOptions: AuthOptions = {
           const { user, token } = await loginService.perform();
 
           return {
-            ...user.props,
-            name: user.fullName,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            isActive: user.isActive,
             role: user.role,
             id: user.id!,
             token,
@@ -50,6 +52,31 @@ export const authOptions: AuthOptions = {
   ],
   pages: {
     signIn: "/auth/login",
+  },
+  callbacks: {
+    async session({ session, token }) {
+      // Agrega las propiedades personalizadas del token a la sesión
+      session.user = {
+        ...session.user,
+        id: token.id as string,
+        firstName: token.firstName as string,
+        lastName: token.lastName as string,
+        role: token.role as string,
+        isActive: token.isActive as boolean,
+      };
+      return session;
+    },
+    async jwt({ token, user }) {
+      // Si el usuario se autentica, añade las propiedades al token
+      if (user) {
+        token.id = user.id;
+        token.firstName = user.firstName;
+        token.lastName = user.lastName;
+        token.role = user.role;
+        token.isActive = user.isActive;
+      }
+      return token;
+    },
   },
 };
 

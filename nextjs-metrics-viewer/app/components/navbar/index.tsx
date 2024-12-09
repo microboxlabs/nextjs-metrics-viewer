@@ -1,5 +1,6 @@
 "use client";
-import { Button, Navbar } from "flowbite-react";
+import { UserRole } from "@/users/model";
+import { Navbar } from "flowbite-react";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
@@ -27,6 +28,11 @@ function AppNavbar({ session }: Props) {
             <Navbar.Link as={Link} href="/dashboard">
               Dashboard
             </Navbar.Link>
+            {session.user.role === UserRole.Admin && (
+              <Navbar.Link as={Link} href="/upload_data">
+                Subir data
+              </Navbar.Link>
+            )}
             <Navbar.Link as={Link} href="#" onClick={() => signOut()}>
               Cerrar sesión
             </Navbar.Link>
