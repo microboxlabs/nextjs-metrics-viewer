@@ -1,8 +1,8 @@
 import { DatabaseConnectionHandler } from "@/lib/db";
 import { users } from "@/lib/db/schemas/user";
 import { UnauthorizedError } from "@/lib/errors";
-import { UserModel, UserRole } from "@/users/model";
-import UserUtilities from "@/users/utilities";
+import { UserModel, UserRole } from "@/domain/users/model";
+import UserUtilities from "@/domain/users/utilities";
 import { eq } from "drizzle-orm";
 import jwt from "jsonwebtoken";
 

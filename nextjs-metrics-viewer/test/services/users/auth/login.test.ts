@@ -3,8 +3,8 @@ import { DatabaseConnection } from "@/lib/db";
 import { users } from "@/lib/db/schemas/user";
 import { UnauthorizedError } from "@/lib/errors";
 import { UserFactory } from "@/test/factories/users";
-import { UserModel } from "@/users/model";
-import UserUtilities from "@/users/utilities";
+import { UserModel } from "@/domain/users/model";
+import UserUtilities from "@/domain/users/utilities";
 import { eq } from "drizzle-orm";
 
 describe("UserAuthLoginService", () => {

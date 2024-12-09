@@ -1,4 +1,4 @@
-import { UserModel, UserRole } from "@/users/model";
+import { UserModel, UserRole } from "@/domain/users/model";
 
 describe("UserModel", () => {
   it("should create a new user model", () => {

@@ -1,5 +1,5 @@
 "use client";
-import { UserRole } from "@/users/model";
+import { UserRole } from "@/domain/users/model";
 import { Navbar } from "flowbite-react";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
