@@ -41,8 +41,8 @@ export default function MetricsSection() {
   }, [options]);
 
   return (
-    <section className="flex w-full max-w-screen-xl flex-col gap-8">
-      <div className="flex w-full justify-between">
+    <section className="flex w-full max-w-screen-xl flex-col gap-6">
+      <div className="flex w-full flex-col-reverse items-center gap-8 md:flex-row  md:justify-between">
         <TimeFilter
           data={options}
           updateMetrics={updateMetrics}

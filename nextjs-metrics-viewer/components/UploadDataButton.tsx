@@ -48,7 +48,7 @@ export default function UploadDataButton({
       >
         {error && (
           <Alert
-            className="absolute -top-20 left-1/2 -translate-x-1/2"
+            className="absolute -bottom-40 left-1/2 top-auto -translate-x-1/2 md:-top-20 md:bottom-auto"
             color="failure"
             icon={HiInformationCircle}
           >

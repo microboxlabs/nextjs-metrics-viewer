@@ -11,14 +11,18 @@ export default function TimeFilter({
   updateMetrics: (arr: Series[]) => void;
   updateSeries: (series: Series[]) => void;
 }) {
+  const [firstDate, setFirstDate] = useState(new Date());
+  const [secondDate, setSecondDate] = useState(new Date());
   const [minDate, setMinDate] = useState(new Date());
   const [maxDate, setMaxDate] = useState(new Date());
 
   const firstDateHandler = (date: Date) => {
+    setFirstDate(date);
     setMinDate(date);
   };
 
   const secondDateHandler = (date: Date) => {
+    setSecondDate(date);
     setMaxDate(date);
   };
 
@@ -41,16 +45,19 @@ export default function TimeFilter({
   return (
     <div className="flex gap-4">
       <Datepicker
+        className="mb-2 [&_input]:border-gray-600 [&_input]:bg-gray-800 [&_input]:text-white"
         onSelectedDateChanged={firstDateHandler}
-        className="mb-2"
         weekStart={1}
         maxDate={new Date()}
+        value={firstDate.toLocaleDateString()}
       />
       <Datepicker
+        className="mb-2 [&_input]:border-gray-600 [&_input]:bg-gray-800 [&_input]:text-white"
         onSelectedDateChanged={secondDateHandler}
         weekStart={1}
         minDate={minDate}
         maxDate={new Date()}
+        value={secondDate.toLocaleDateString()}
       />
     </div>
   );

@@ -39,8 +39,7 @@ export default function ToggleFilters({
           <Button
             key={index}
             onClick={() => toggleButton(index)}
-            data-serie-visible={toggles[index]}
-            className="bg-gray-700 focus:ring-0 data-[serie-visible=false]:bg-gray-800 data-[serie-visible=false]:text-gray-400"
+            className="bg-gray-800 focus:ring-0"
             style={{
               color: data.colors[index],
               opacity: toggles[index] ? 1 : 0.5,

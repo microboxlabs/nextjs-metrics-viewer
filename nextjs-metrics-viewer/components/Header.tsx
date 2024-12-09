@@ -6,7 +6,6 @@ import {
   DropdownItem,
   Navbar,
   NavbarBrand,
-  NavbarToggle,
 } from "flowbite-react";
 import { signOut, useSession } from "next-auth/react";
 
@@ -16,7 +15,7 @@ export default function Header() {
   return (
     <Navbar className="fixed top-0 z-10 w-full border-b border-gray-700 bg-black px-4">
       <div className="m-auto flex h-16 w-full max-w-screen-xl items-center justify-between">
-        <NavbarBrand href="#">
+        <NavbarBrand href="/#">
           <span className="self-center whitespace-nowrap text-xl font-semibold text-[#00BBCF]">
             MicroboxLabs
           </span>
@@ -46,7 +45,6 @@ export default function Header() {
               Sign out
             </DropdownItem>
           </Dropdown>
-          <NavbarToggle />
         </div>
       </div>
     </Navbar>
