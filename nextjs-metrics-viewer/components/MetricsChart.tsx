@@ -26,9 +26,6 @@ export default function MetricsChart() {
       <div id="column-chart" className="w-full">
         <span className="text-white">NO DATA</span>
       </div>
-      <div className="grid grid-cols-1 items-center justify-between border-t border-gray-700">
-        <div className="flex items-center justify-between pt-5"></div>
-      </div>
     </div>
   );
 }

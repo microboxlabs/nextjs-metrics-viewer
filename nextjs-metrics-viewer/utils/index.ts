@@ -2,7 +2,7 @@ import ApexCharts from "apexcharts";
 import { INITIAL_METRICS } from "@/contants";
 import { Headers, Options, Series } from "@/interfaces";
 
-export function ProccessDataToSeries(data: string) {
+export function ProccessTextToSeries(data: string) {
   const text = data.split("\r\n");
   const headers = text.shift()?.split(",");
   const splittedData = text.map((row) => {
@@ -93,11 +93,14 @@ export function getSummaryMetrics(series: Series[]) {
   };
 }
 
-export const updateChart = (data: Options) => {
+export const createChart = (data: Options) => {
   const chartElement = document.getElementById("column-chart");
   if (chartElement && typeof ApexCharts !== "undefined") {
     chartElement.innerHTML = "";
-    const chart = new ApexCharts(chartElement, data);
-    chart.render();
+    return new ApexCharts(chartElement, data);
   }
+};
+
+export const toggleSeries = (chart: ApexCharts, name: string) => {
+  chart.toggleSeries(name);
 };

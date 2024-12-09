@@ -10,6 +10,7 @@ export interface formattedSeries {
 }
 
 export interface Options {
+  colors: string[];
   chart: Chart;
   tooltip: Tooltip;
   dataLabels: DataLabels;
@@ -20,6 +21,10 @@ export interface Options {
   yaxis: Yaxi[];
   annotations: Annotations;
   xaxis: Xaxis;
+}
+
+export interface Colors {
+  [key: number]: string;
 }
 
 export interface Annotations {

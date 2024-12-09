@@ -4,9 +4,9 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 
 export default function UploadDataModal({
-  updateOptions,
+  loadOptions,
 }: {
-  updateOptions: (data: string) => void;
+  loadOptions: (data: string) => void;
 }) {
   const [openModal, setOpenModal] = useState(false);
   const [file, setFile] = useState<File | null>(null);
@@ -31,7 +31,7 @@ export default function UploadDataModal({
     const reader = new FileReader();
     reader.readAsText(file);
     reader.onload = () => {
-      updateOptions(reader.result as string);
+      loadOptions(reader.result as string);
     };
   };
 

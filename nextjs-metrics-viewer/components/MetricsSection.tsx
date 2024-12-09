@@ -2,10 +2,12 @@
 import { useState, useEffect } from "react";
 import MetricsChart from "@/components/MetricsChart";
 import UploadDataModal from "@/components/UploadDataModal";
+import ToggleFilters from "@/components/ToogleFilter";
+import { Options, Series } from "@/interfaces";
 import { INITIAL_OPTIONS, INITIAL_METRICS } from "@/contants";
-import { getSummaryMetrics, ProccessDataToSeries, updateChart } from "@/utils";
-import MetricsView from "./MetricsView";
-import { Options, Metrics } from "@/interfaces";
+import { getSummaryMetrics, ProccessTextToSeries } from "@/utils";
+import { useChart } from "@/hooks/chart";
+import MetricsView from "@/components/MetricsView";
 
 export default function MetricsSection() {
   const [options, setOptions] = useState<Options>(() => {
@@ -14,29 +16,39 @@ export default function MetricsSection() {
     return INITIAL_OPTIONS;
   });
 
-  const [metrics, setMetrics] = useState<Metrics>(INITIAL_METRICS);
+  const [metrics, setMetrics] = useState(INITIAL_METRICS);
 
-  const updateOptions = (data: string) => {
-    const dataToSeries = ProccessDataToSeries(data);
+  const { createChart, toggleSeries } = useChart();
+
+  const loadOptions = (data: string) => {
+    const dataToSeries = ProccessTextToSeries(data);
     setOptions((prev) => ({
       ...prev,
       series: dataToSeries,
     }));
   };
 
+  const updateMetrics = (arr: Series[]) => {
+    const summaryMetrics = getSummaryMetrics(arr);
+    setMetrics(summaryMetrics);
+  };
+
   useEffect(() => {
     localStorage.setItem("options", JSON.stringify(options));
-    updateChart(options);
-
-    const summaryMetrics = getSummaryMetrics(options.series);
-    setMetrics(summaryMetrics);
+    createChart(options);
+    updateMetrics(options.series);
   }, [options]);
 
   return (
     <section className="flex w-full max-w-screen-xl flex-col gap-8">
-      <UploadDataModal updateOptions={updateOptions} />
+      <UploadDataModal loadOptions={loadOptions} />
       <MetricsView metrics={metrics} />
       <MetricsChart />
+      <ToggleFilters
+        data={options}
+        toggleSeries={toggleSeries}
+        updateMetrics={updateMetrics}
+      />
     </section>
   );
 }
