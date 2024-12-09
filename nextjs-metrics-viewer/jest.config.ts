@@ -7,6 +7,14 @@ const createJestConfig = nextJest({
 
 // Add any custom config to be passed to Jest
 const config: Config = {
+  transform: {
+    "^.+\\.(ts|tsx)$": ["ts-jest", { isolatedModules: true }],
+    "^.+\\.(js|jsx|mjs)$": "babel-jest",
+  },
+  transformIgnorePatterns: [
+    "/node_modules/(?!(jose|openid-client|next-auth)/)",
+  ],
+  preset: "ts-jest",
   coverageProvider: "v8",
   testEnvironment: "jsdom",
   moduleFileExtensions: ["ts", "js", "json"],

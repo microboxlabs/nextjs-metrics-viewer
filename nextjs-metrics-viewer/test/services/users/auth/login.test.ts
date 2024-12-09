@@ -22,10 +22,10 @@ describe("UserAuthLoginService", () => {
     jest.clearAllMocks();
   });
 
-  afterAll(async () => {
-    const db = DatabaseConnection.getInstance().db;
-    await db.delete(users).where(eq(users.email, mockUser.email));
-  });
+  // afterAll(async () => {
+  //   const db = DatabaseConnection.getInstance().db;
+  //   await db.delete(users).where(eq(users.email, mockUser.email));
+  // });
 
   it("should return user and token on successful login", async () => {
     const service = new LoginService(

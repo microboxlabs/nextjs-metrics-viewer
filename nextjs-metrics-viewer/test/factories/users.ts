@@ -10,7 +10,7 @@ export const UserFactory = {
       lastName: faker.person.lastName(),
       email: faker.internet.email(),
       password: faker.internet.password(),
-      role: "regular",
+      role: "admin",
       isActive: true,
       createdAt: new Date(),
       updatedAt: new Date(),
