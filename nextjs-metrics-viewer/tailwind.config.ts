@@ -11,6 +11,10 @@ const config: Config = {
   theme: {
     extend: {},
   },
-  plugins: [flowbite.plugin()],
+  plugins: [
+    require('flowbite/plugin')({
+      charts: true,
+  }),
+  ],
 };
 export default config;
