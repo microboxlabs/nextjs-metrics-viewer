@@ -69,10 +69,10 @@ Antes de empezar :checkered_flag:, Debes tener [Git](https://git-scm.com) y [Nod
 
 ```bash
 # Clone this project
-$ git clone https://github.com/JavierGonzalez998/flowbite-react-template-nextjs
+$ git clone https://github.com/JavierGonzalez998/nextjs-metrics-viewer
 
 # Access
-$ cd flowbite-react-template-nextjs
+$ cd nextjs-metrics-viewer
 
 # Install dependencies
 $ yarn | npm i 
