@@ -1,4 +1,5 @@
 export const INITIAL_OPTIONS = {
+  colors: ["#77dd77", "#fdfd96", "#84b6f4", "#fdcae1"],
   chart: {
     height: "100%",
     maxWidth: "100%",
