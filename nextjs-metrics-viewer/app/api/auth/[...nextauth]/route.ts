@@ -5,7 +5,7 @@ import { DatabaseConnection } from "@/lib/db";
 import { AppError } from "@/lib/errors";
 import { StatusCodes } from "http-status-codes";
 
-const authOptions: AuthOptions = {
+export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
       credentials: {

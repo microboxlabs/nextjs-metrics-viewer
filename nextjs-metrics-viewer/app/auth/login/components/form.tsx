@@ -38,6 +38,7 @@ function LoginFormComponent({ children }: Props) {
       }
 
       router.push("/dashboard");
+      router.refresh();
     } catch (err) {
       console.error("Error durante la solicitud:", err);
       setError("Ocurrió un error al procesar la solicitud.");

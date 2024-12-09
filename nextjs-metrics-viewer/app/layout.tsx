@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { ThemeModeScript } from "flowbite-react";
+import { NavbarWrapper } from "./components/navbar/wrapper";
+import Providers from "./providers";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -20,7 +22,12 @@ export default function RootLayout({
       <head>
         <ThemeModeScript />
       </head>
-      <body className={`${inter.className} px-5`}>{children}</body>
+      <body className={`${inter.className} px-5`}>
+        <Providers>
+          <NavbarWrapper />
+          {children}
+        </Providers>
+      </body>
     </html>
   );
 }
