@@ -1,10 +1,13 @@
-import { DarkThemeToggle } from "flowbite-react";
+import LoginForm from "@/components/LoginForm";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen items-center justify-center gap-2 dark:bg-gray-800">
-      <h1 className="text-2xl dark:text-white">Flowbite React + Next.js</h1>
-      <DarkThemeToggle />
+    <main className="flex min-h-screen flex-col items-center gap-8 bg-black px-6 py-32">
+      <h1 className="self-center whitespace-nowrap text-2xl font-semibold text-[#00BBCF]">
+        MicroboxLabs
+      </h1>
+
+      <LoginForm />
     </main>
   );
 }
