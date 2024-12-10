@@ -1,6 +1,5 @@
 import { sql } from "drizzle-orm";
-import { check, int } from "drizzle-orm/sqlite-core";
-import { sqliteTable, text, integer } from "drizzle-orm/sqlite-core";
+import { sqliteTable, text, integer, check } from "drizzle-orm/sqlite-core";
 import { v4 as uuidv4 } from "uuid";
 
 export const users = sqliteTable(

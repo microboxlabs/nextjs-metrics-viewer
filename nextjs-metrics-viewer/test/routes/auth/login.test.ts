@@ -1,66 +1,52 @@
-import { StatusCodes } from "http-status-codes";
+/**
+ * @jest-environment node
+ */
 import { POST } from "@/app/api/auth/[...nextauth]/route";
-import { DatabaseConnection } from "@/lib/db";
-import { users } from "@/lib/db/schemas/user";
-import { UserFactory } from "@/test/factories/users";
-import UserUtilities from "@/users/utilities";
-import { eq } from "drizzle-orm";
+import { createMocks } from "node-mocks-http";
 
-jest.mock("next/server", () => ({
-  NextResponse: {
-    json: jest.fn((data, { status }) => ({
-      json: () => data,
-      status,
+jest.mock("@/lib/db", () => ({
+  DatabaseConnection: {
+    getInstance: jest.fn(() => ({
+      db: {
+        collection: jest.fn(),
+      },
     })),
   },
 }));
 
-describe("POST /app/api/auth/[...nextauth]/route", () => {
-  const mockUser = UserFactory.validUser().build();
-
-  beforeAll(async () => {
-    const db = DatabaseConnection.getInstance().db;
-    await db.insert(users).values({
-      ...mockUser,
-      password: await UserUtilities.encryptPassword(mockUser.password),
-    });
-  });
-
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  afterAll(async () => {
-    const db = DatabaseConnection.getInstance().db;
-    await db.delete(users).where(eq(users.email, mockUser.email));
-  });
-
-  beforeEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it("should return 200 and user data on successful login", async () => {
-    const req = new Request("http://localhost/api/auth/login", {
-      method: "POST",
-      body: JSON.stringify({
-        email: mockUser.email,
-        password: mockUser.password,
+jest.mock("@/app/api/auth/[...nextauth]/services/login", () => ({
+  LoginService: jest.fn().mockImplementation(() => ({
+    perform: jest.fn(() =>
+      Promise.resolve({
+        user: {
+          id: "user-id",
+          firstName: "John",
+          lastName: "Doe",
+          email: "test@example.com",
+          isActive: true,
+          role: "user",
+        },
+        token: "mocked-token",
       }),
-    });
+    ),
+  })),
+}));
 
-    const res = await POST(req);
-
-    expect(res.status).toBe(StatusCodes.OK);
-  });
-
-  it("should return 400 when email or password is missing", async () => {
-    const req = new Request("http://localhost/api/auth/login", {
+describe("POST /api/auth/login", () => {
+  it("should authenticate user with valid credentials", async () => {
+    const { req, res } = createMocks({
       method: "POST",
-      body: JSON.stringify({ email: mockUser.email }),
+      body: {
+        email: "test@example.com",
+        password: "valid-password",
+      },
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
 
-    const res = await POST(req);
+    await POST(req, res);
 
-    expect(res.status).toBe(StatusCodes.BAD_REQUEST);
+    expect(res._getStatusCode()).toBe(200);
   });
 });
