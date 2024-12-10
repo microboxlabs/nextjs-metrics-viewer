@@ -1,4 +1,4 @@
-type AnalyticsModelProps = {
+export type AnalyticsModelProps = {
   id?: string;
   category: string;
   value: number;

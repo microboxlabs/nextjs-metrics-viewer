@@ -4,6 +4,7 @@ import { StatusCodes } from "http-status-codes";
 import { ValidateDataService } from "./services/validate_data";
 import { RegisterDataService } from "./services/register";
 import { DatabaseConnection } from "@/lib/db";
+import { GetAnalyticsService } from "./services/read";
 
 export async function POST(req: Request) {
   try {
@@ -33,7 +34,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // Validar el archivo
     const validateService = new ValidateDataService(file);
     const result = await validateService.perform();
 
@@ -44,7 +44,6 @@ export async function POST(req: Request) {
       );
     }
 
-    // Registrar los datos validados
     const registerDataService = new RegisterDataService(
       result.data!,
       DatabaseConnection.getInstance().db,
@@ -67,6 +66,38 @@ export async function POST(req: Request) {
     console.error("Error al procesar el archivo de analytics:", error);
     return NextResponse.json(
       { success: false, message: "Error al procesar el archivo." },
+      { status: StatusCodes.INTERNAL_SERVER_ERROR },
+    );
+  }
+}
+
+export async function GET(req: Request) {
+  try {
+    const url = new URL(req.url);
+    const category = url.searchParams.get("category") || undefined;
+    const startDate = url.searchParams.get("startDate") || undefined;
+    const endDate = url.searchParams.get("endDate") || undefined;
+
+    const db = DatabaseConnection.getInstance().db;
+
+    const service = new GetAnalyticsService(db);
+    const result = await service.perform({ category, startDate, endDate });
+
+    if (!result.success) {
+      return NextResponse.json(
+        { success: false, message: result.message },
+        { status: StatusCodes.BAD_REQUEST },
+      );
+    }
+
+    return NextResponse.json(
+      { success: true, data: result.data },
+      { status: StatusCodes.OK },
+    );
+  } catch (error: any) {
+    console.error("Error en el endpoint GET de analytics:", error.message);
+    return NextResponse.json(
+      { success: false, message: "Error interno del servidor." },
       { status: StatusCodes.INTERNAL_SERVER_ERROR },
     );
   }
