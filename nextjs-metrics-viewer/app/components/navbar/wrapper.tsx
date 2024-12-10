@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "../../api/auth/[...nextauth]/route";
 import AppNavbar from ".";
+import { authOptions } from "@/app/api/auth/[...nextauth]/options/credentials";
 
 async function NavbarWrapper() {
   const session = await getServerSession(authOptions);

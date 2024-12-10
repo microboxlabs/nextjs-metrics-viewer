@@ -35,7 +35,7 @@ export class LoginService {
       .where(eq(users.email, this.__email))
       .execute();
 
-    if (!user) throw new UnauthorizedError("Invalid email or password");
+    if (!user) throw new UnauthorizedError("Correo o contraseña no válidos");
 
     const isValidPassword = await UserUtilities.verifyPassword({
       hashedPassword: user.password,
@@ -43,7 +43,7 @@ export class LoginService {
     });
 
     if (!isValidPassword)
-      throw new UnauthorizedError("Invalid email or password");
+      throw new UnauthorizedError("Correo o contraseña no válidos");
 
     const token = jwt.sign(
       {

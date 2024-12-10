@@ -9,12 +9,6 @@ interface GetAnalyticsParams {
   endDate?: string;
 }
 
-interface GetAnalyticsResult {
-  success: boolean;
-  message?: string;
-  data?: AnalyticsModel[];
-}
-
 class GetAnalyticsService {
   constructor(private readonly __db: DatabaseConnectionHandler) {}
 

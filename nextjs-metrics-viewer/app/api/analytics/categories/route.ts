@@ -3,7 +3,7 @@ import { analytics } from "@/lib/db/schemas/data";
 import { StatusCodes } from "http-status-codes";
 import { NextResponse } from "next/server";
 
-export async function GET(req: Request) {
+export async function GET() {
   try {
     const db = DatabaseConnection.getInstance().db;
 
