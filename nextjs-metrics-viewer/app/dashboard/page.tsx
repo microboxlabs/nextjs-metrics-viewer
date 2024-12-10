@@ -1,29 +1,58 @@
 import { AnalyticsModel, AnalyticsModelProps } from "@/domain/analytics/model";
 import { BarChart } from "./reports/category_comparison";
-import { TimeSeriesChart } from "./reports/time_series";
 import { AnalyticsUtilities } from "@/domain/analytics/utilities";
+import { DashboardFilters } from "./components/filters";
+import { TimeSeriesChart } from "./reports/time_series";
 
-async function DashboardPage() {
-  const response = await fetch("http://localhost:3000/api/analytics", {
-    cache: "no-store",
-  });
+type DashboardPageProps = {
+  searchParams: { category?: string; initDate?: string; endDate?: string };
+};
 
-  if (response.status === 500) {
+async function DashboardPage({ searchParams }: DashboardPageProps) {
+  const { category, initDate, endDate } = searchParams;
+
+  const queryParamsUrl = `${category ? `category=${category}` : ""}${initDate ? `&startDate=${initDate}` : ""}${endDate ? `&endDate=${endDate}` : ""}`;
+
+  const analyticsFetch = await fetch(
+    `http://localhost:3000/api/analytics${queryParamsUrl.length > 0 ? `?${queryParamsUrl}` : ""}`,
+    {
+      cache: "no-store",
+    },
+  );
+
+  if (analyticsFetch.status === 500) {
     return <div>Error al cargar los datos</div>;
   }
 
-  const result = await response.json();
+  const analyticsResult = await analyticsFetch.json();
 
-  const analytics: AnalyticsModelProps[] = result.data.map(
-    (element: any) => new AnalyticsModel({ ...element }).props,
+  const analytics: AnalyticsModelProps[] = analyticsResult.data.map(
+    (element: any) =>
+      new AnalyticsModel({ ...element, date: new Date(element.date) }).props,
   );
 
   const metrics = AnalyticsUtilities.calculateMetrics(
-    result.data.map((element: any) => new AnalyticsModel({ ...element })),
+    analyticsResult.data.map(
+      (element: any) => new AnalyticsModel({ ...element }),
+    ),
   );
+
+  const categoriesFetch = await fetch(
+    "http://localhost:3000/api/analytics/categories",
+    {
+      cache: "no-store",
+    },
+  );
+
+  const categories = await categoriesFetch.json();
 
   return (
     <div className="flex h-full w-full flex-col gap-5">
+      <DashboardFilters
+        categories={
+          categories.data.map((element: any) => element.category) || []
+        }
+      />
       <div className="grid w-full grid-cols-1 gap-3 lg:grid-cols-2">
         <div className="rounded-md bg-white p-4 shadow-md">
           <h2 className="text-lg font-semibold">Comparación de categorías</h2>
@@ -39,16 +68,19 @@ async function DashboardPage() {
         <ul className="flex list-inside list-disc flex-col gap-2 md:flex-row md:gap-5">
           <li>
             <span className="font-semibold">Total de registros:</span>{" "}
-            {metrics.total}
+            {metrics.total.toFixed(2)}
           </li>
           <li>
-            <span className="font-semibold">Promedio:</span> {metrics.average}
+            <span className="font-semibold">Promedio:</span>{" "}
+            {metrics.average.toFixed(2)}
           </li>
           <li>
-            <span className="font-semibold">Máximo:</span> {metrics.max}
+            <span className="font-semibold">Máximo:</span>{" "}
+            {metrics.max.toFixed(2)}
           </li>
           <li>
-            <span className="font-semibold">Mínimo:</span> {metrics.min}
+            <span className="font-semibold">Mínimo:</span>{" "}
+            {metrics.min.toFixed(2)}
           </li>
         </ul>
       </div>

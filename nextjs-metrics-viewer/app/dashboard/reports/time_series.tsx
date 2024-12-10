@@ -12,13 +12,22 @@ function TimeSeriesChart({ analytics }: { analytics: AnalyticsModelProps[] }) {
     const height = 300;
 
     const margin = { top: 20, right: 30, bottom: 30, left: 40 };
+
+    const normalizedAnalytics = analytics.map((d) => ({
+      ...d,
+      date: new Date(d.date),
+    }));
+
+    svg.selectAll("*").remove();
+
     const x = d3
       .scaleTime()
-      .domain(d3.extent(analytics, (d) => new Date(d.date)) as [Date, Date])
+      .domain(d3.extent(normalizedAnalytics, (d) => d.date) as [Date, Date])
       .range([margin.left, width - margin.right]);
+
     const y = d3
       .scaleLinear()
-      .domain([0, d3.max(analytics, (d) => d.value) || 0])
+      .domain([0, d3.max(normalizedAnalytics, (d) => d.value) || 0])
       .nice()
       .range([height - margin.bottom, margin.top]);
 
@@ -33,8 +42,8 @@ function TimeSeriesChart({ analytics }: { analytics: AnalyticsModelProps[] }) {
       .call(
         d3
           .axisBottom(x)
-          .ticks(width / 80)
-          .tickSizeOuter(0),
+          .ticks(d3.timeMonth.every(1))
+          .tickFormat((d) => d3.timeFormat("%B")(d as Date)),
       );
 
     svg
@@ -44,7 +53,7 @@ function TimeSeriesChart({ analytics }: { analytics: AnalyticsModelProps[] }) {
 
     svg
       .append("path")
-      .datum(analytics)
+      .datum(normalizedAnalytics)
       .attr("fill", "none")
       .attr("stroke", "steelblue")
       .attr("stroke-width", 1.5)

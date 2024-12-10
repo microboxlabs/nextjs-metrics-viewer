@@ -4,6 +4,7 @@ import { Navbar } from "flowbite-react";
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
+import { GoHomeFill } from "react-icons/go";
 
 type Props = {
   session: Session | null;
@@ -13,9 +14,7 @@ function AppNavbar({ session }: Props) {
   return (
     <Navbar fluid rounded>
       <Navbar.Brand as={Link} href="/">
-        <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
-          HOME
-        </span>
+        <GoHomeFill className="size-7 text-black text-opacity-60" />
       </Navbar.Brand>
       <Navbar.Toggle />
       <Navbar.Collapse>
