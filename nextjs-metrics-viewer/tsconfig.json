@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
+    "target": "es2015",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
+    "types": ["node", "jest"],
     "skipLibCheck": true,
     "strict": true,
     "noEmit": true,

@@ -9,7 +9,14 @@ const config: Config = {
     flowbite.content(),
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: "#024959", // Primary Color
+        secondary: "#026773", // Secondary Color
+        tertiary: "#3CA6A6", // Tertiary Color
+        quaternary: "#F2E3D5", // Fourth Color
+      },
+    },
   },
   plugins: [flowbite.plugin()],
 };

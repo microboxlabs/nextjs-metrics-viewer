@@ -1,0 +1,102 @@
+Lo logrado hasta ahora
+1. Configuración inicial del proyecto
+✅ Configuración del proyecto base con Next.js, Tailwind CSS, y Flowbite.
+✅ Creación de un diseño modular y organizado utilizando componentes reutilizables como:
+Navbar: Con control de navegación según rol de usuario (Admin/Regular).
+Footer: Diseño responsivo y profesional.
+RootLayout: Configuración de diseño global con AuthProvider para manejar roles y autenticación.
+globals.css: Uso centralizado de estilos, colores definidos (primario, secundario, terciario, cuaternario) y diseño consistente.
+2. Autenticación y roles
+✅ Login:
+
+Implementación funcional con validación en tiempo real de email y contraseña.
+Uso de diseño profesional para mensajes de error y éxito, integrando iconos de Material-UI.
+Redirección automática al Dashboard tras un login exitoso.
+✅ Registro:
+
+Validación estricta de contraseña (longitud mínima, mayúsculas, minúsculas, caracteres especiales y números).
+Validación en tiempo real para formato de email y coincidencia de contraseñas.
+Permite seleccionar roles (admin, regular) al momento del registro.
+Diseño profesional con íconos para mensajes de error.
+✅ Middleware de autorización:
+
+Implementación de lógica para proteger rutas según roles:
+Admins pueden acceder al Dashboard y página de Upload CSV.
+Usuarios Regulares sólo pueden acceder al Dashboard.
+Redirección a /login para usuarios no autenticados.
+Redirección a /403 para usuarios no autorizados.
+3. Subida de archivos CSV
+✅ Página funcional para subir archivos CSV:
+Restringida exclusivamente para Admins.
+Permite subir archivos .csv con columnas Date, Category, Value.
+Uso de FormData para enviar el archivo al backend.
+Mensajes claros de error o éxito, estilizados profesionalmente.
+Verificación del rol antes de permitir acceso.
+4. Dashboard de métricas
+✅ Diseño responsivo y profesional del Dashboard, accesible tanto para Admins como Usuarios Regulares.
+
+✅ Filtros funcionales:
+
+Rango de fechas (startDate y endDate).
+Filtro por categoría.
+Actualización automática de métricas y gráficos al cambiar filtros.
+✅ Sección de resumen:
+
+Métricas avanzadas implementadas:
+Total, Promedio (Average), Máximo (Max), Mínimo (Min) y Mediana (Median).
+Diseño profesional para cada métrica, utilizando los colores configurados y sombras.
+✅ Gráficos:
+
+Gráfico de Líneas (Time Series): Representa valores a lo largo del tiempo.
+Gráfico de Barras (Category Breakdown): Muestra distribución por categoría.
+Gráfico de Pastel (Category Distribution): Muestra proporción por categoría.
+Sección bien estructurada con diseño moderno.
+Lo que falta para completar el desafío al 100%
+1. Pruebas y validaciones
+❌ Pruebas unitarias:
+No se han implementado pruebas para verificar las rutas de la API (/auth, /metrics, /upload).
+Es necesario crear pruebas para garantizar la integridad de los datos y el correcto manejo de roles.
+❌ Validaciones adicionales:
+Validar el archivo CSV en el backend para asegurarse de que contiene las columnas correctas y datos válidos.
+Manejo de errores más robusto al subir archivos (e.g., archivos grandes, columnas faltantes).
+2. Backend
+✅ SQLite está configurado y funcional.
+❌ Mejoras en el manejo de datos:
+Prevenir duplicados al insertar métricas desde el CSV.
+Implementar paginación o límites en la consulta de métricas para mejorar el rendimiento en bases de datos grandes.
+3. Autenticación avanzada
+❌ Manejo de expiración de tokens:
+Implementar lógica para expiración y renovación de tokens en el backend.
+Manejo de sesiones activas para mayor seguridad.
+❌ Seguridad adicional:
+Verificación de headers en las peticiones protegidas.
+Implementar protección contra ataques comunes como CSRF y XSS.
+4. Mejoras en el Dashboard
+✅ Sección de resumen funcional.
+✅ Gráficos básicos y avanzados (líneas, barras, pastel).
+❌ Métricas adicionales (opcional, para destacar profesionalmente):
+Desviación estándar: Muestra la variabilidad de los valores.
+Tendencia: Gráfico adicional para detectar si las métricas están aumentando o disminuyendo.
+Comparaciones: Gráfico que permita comparar categorías en un período específico.
+❌ Funcionalidad en tiempo real (bonus opcional):
+Actualización automática del Dashboard usando WebSockets o Server-Sent Events (SSE).
+5. Diseño y usabilidad
+✅ Diseño moderno y responsivo.
+❌ Mejoras opcionales en la UX:
+Dark mode completo: Implementar soporte completo para modo oscuro en todas las páginas.
+Tooltips en los gráficos y métricas para explicar los datos.
+Interactividad adicional en los gráficos, como selección de categorías directamente desde los gráficos.
+Conclusión del progreso
+Progreso actual: 85-90%
+
+Todo lo esencial del desafío está implementado y funcional:
+Autenticación y roles.
+Subida de archivos.
+Dashboard funcional con métricas avanzadas y gráficos.
+Diseño profesional y responsivo.
+Quedan pendientes pruebas, manejo de errores robusto y mejoras opcionales para alcanzar el 100%.
+Próximos pasos:
+
+Implementar pruebas unitarias.
+Optimizar el backend con validaciones más estrictas.
+Agregar funcionalidad opcional como métricas avanzadas o interactividad adicional en el Dashboard.
