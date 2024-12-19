@@ -1,3 +1,106 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html {
+  @apply bg-gray-50 dark:bg-gray-800;
+  /* Fondo predeterminado */
+}
+
+body {
+  @apply bg-quaternary text-gray-800 dark:bg-gray-900 dark:text-gray-200;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-bold text-primary dark:text-quaternary;
+}
+
+button {
+  @apply rounded-lg bg-primary font-medium text-white hover:bg-secondary focus:ring focus:ring-secondary;
+}
+
+a {
+  @apply text-primary underline hover:text-secondary;
+}
+
+input {
+  @apply rounded-md border border-secondary p-2 focus:ring focus:ring-tertiary;
+}
+
+.container {
+  @apply mx-auto p-4;
+}
+
+/* Navbar styles */
+nav {
+  @apply bg-primary text-white shadow-md;
+}
+
+/* Link styles */
+a {
+  @apply text-white transition-colors hover:text-tertiary;
+}
+
+/* Button styles */
+.btn-primary {
+  @apply rounded-lg bg-secondary px-4 py-2 text-white transition-all hover:bg-tertiary focus:ring focus:ring-quaternary;
+}
+
+/* Utilities for hover effects */
+.hover\:text-secondary:hover {
+  @apply text-secondary;
+}
+
+.hover\:text-tertiary:hover {
+  @apply text-tertiary;
+}
+
+/* Footer styles */
+footer {
+  @apply bg-primary text-center text-white shadow-inner;
+}
+
+footer p {
+  @apply text-sm text-white;
+}
+
+footer p:nth-child(2) {
+  @apply mt-2 text-xs text-tertiary;
+}
+
+/* 403 styles */
+
+.text-error {
+  @apply text-red-600;
+}
+
+.bg-primary {
+  @apply bg-[#024959];
+}
+
+.text-secondary {
+  @apply text-[#026773];
+}
+
+.bg-tertiary {
+  @apply bg-[#3CA6A6];
+}
+
+.hover\:bg-quaternary:hover {
+  @apply bg-[#F2E3D5];
+}
+
+/* login styles */
+
+.text-quaternary-light {
+  color: #f5e8dc;
+}
+
+.focus:ring-secondary-light {
+  --tw-ring-color: #58aaa6;
+}
