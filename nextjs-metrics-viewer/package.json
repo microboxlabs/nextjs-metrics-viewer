@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "install:all": "npm install && cd ws-server && npm install",
     "dev": "concurrently \"npm run dev:next\" \"npm run dev:ws\"",
     "dev:next": "next dev",
     "dev:ws": "cd ws-server && npm run dev",
