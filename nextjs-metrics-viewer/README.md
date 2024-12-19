@@ -87,7 +87,7 @@ The application has been designed to ensure **efficiency**, **security**, and an
    git clone https://github.com/Britoshky/nextjs-metrics-viewer  
    cd project-dashboard  
 2. Install dependencies:  
-   npm install  
+   npm run install:all
 3. Run the development server:  
    npm run dev  
 
@@ -95,15 +95,17 @@ The application has been designed to ensure **efficiency**, **security**, and an
 
 ## Available Commands  
 
-| Command            | Description                                   |  
-|--------------------|-----------------------------------------------|  
-| `npm run dev`      | Starts the project in development mode.      |  
-| `npm run build`    | Creates an optimized build for production.   |  
-| `npm start`        | Starts the project in production mode.       |  
-| `npm run lint`     | Runs ESLint to detect syntax errors.         |  
-| `npm run format`   | Formats the code using Prettier.             |  
-| `npm run test`     | Runs unit tests and backend validations.     |  
-| `npm run typecheck`| Verifies types throughout the project.       |  
+| Command               | Description                                  |  
+|-----------------------|----------------------------------------------|  
+| `npm run dev`         | Starts the project in development mode.      |  
+| `npm run build`       | Creates an optimized build for production.   |  
+| `npm start`           | Starts the project in production mode.       |  
+| `npm run lint`        | Runs ESLint to detect syntax errors.         |  
+| `npm run format`      | Formats the code using Prettier.             |  
+| `npm run test`        | Runs unit tests and backend validations.     |  
+| `npm run typecheck`   | Verifies types throughout the project.       |  
+| `npm run install:all` | Installs dependencies for both the main      |
+|                         project and the WebSocket server.            | 
 
 ---
 
